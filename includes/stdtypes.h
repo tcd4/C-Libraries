@@ -1,3 +1,7 @@
+#ifndef __BASIC__
+#define __BASIC__
+
+
 /**
  * @file basics.h
  *
@@ -9,10 +13,6 @@
  * NULL define
  * TRUE and FALSE defines
  */
-
-
-#ifndef __BASIC__
-#define __BASIC__
 
 
 /* unsigned sized int defines */
