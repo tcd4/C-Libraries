@@ -12,6 +12,7 @@
 #include <string.h>
 #include "stdmacros.h"
 #include "stdtypes.h"
+#include "platforms.h"
 
 
 START_DECLS
