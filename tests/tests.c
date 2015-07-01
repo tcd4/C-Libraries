@@ -1,16 +1,113 @@
 #include <stdio.h>
 #include "debug.h"
 #include "boolean.h"
+#include "linked_list.h"
 
 
 void Bool_Test();
+void List_Test();
 
 
 int main( int argc, char *argv[] )
 {
-    Bool_Test();
-
+    /*Bool_Test();*/
+    List_Test();
     return 0;
+}
+
+
+void List_Test()
+{
+    List *list, *dup, *temp;
+    int a;
+    int *b;
+
+    printf( "\n##### List Test #####\n" );
+    a = 5;
+
+    printf( "New_List test\n" );
+    list = New_List( &a, sizeof( int ), NULL );
+    if( !list ) 
+    {
+	printf( "failed to create List\n" );
+	return;
+    }
+    printf( "start data: %i\n", *( int* )( list->data ) );
+
+    printf( "\nLength_Of_List test\n" );
+    printf( "length: %i\n", ( int )( Length_Of_List( list ) ) );
+
+    printf( "\nPrepend_To_List test\n" );
+    for( a = 4; a >= 0; a-- )
+    {
+	Prepend_To_List( &list, &a, sizeof( int ), NULL );
+	printf( "prepended: %i\n", *( int* )( list->data ) );
+    }
+
+    printf( "\nEnd_Of_List test\n" );
+    temp = End_Of_List( list );
+    printf( "end data: %i\n", *( int* )( temp->data ) );
+
+    printf( "\nAppend_To_List test\n" );
+    for( a = 6; a <= 9; a++ )
+    {
+	Append_To_List( list, &a, sizeof( int ), NULL );
+	temp = End_Of_List( list );
+	printf( "appended: %i\n", *( int* )( temp->data ) );
+    }
+
+    printf( "\nInsert_Into_List test\n" );
+    a = 6;
+    Insert_Into_List( &list, a, &a, sizeof( int ), NULL );
+    a = 0;
+    Insert_Into_List( &list, a, &a, sizeof( int ), NULL );
+    a = 32;
+    Insert_Into_List( &list, a, &a, sizeof( int ), NULL );
+
+    printf( "\nFind_In_List test\n" );
+    b = &a;
+    Insert_Into_List( &list, 5, b, 0, NULL );
+    if( Find_In_List( list, b ) ) printf( "found it\n" );
+    else printf( "didn't find it\n" ); 
+
+    printf( "\nList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
+
+    printf( "\nRemove_List_Segment and Free_List_Segment tests\n" );
+    temp = list->next->next;
+    Remove_List_Segment( &list, temp );
+    Remove_List_Segment( &list, list );
+
+    printf( "\nRemove_From_List test\n" );
+    Remove_From_List( &list, b, FALSE );
+
+    printf( "\nList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
+
+    printf( "\nDuplicate_List test\n" );
+    dup = Duplicate_List( list );
+    temp = dup;
+    while( temp )
+    {
+	printf( "dup: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
+    
+
+    printf( "\nFree_List test\n" );
+    b = NULL;
+    Free_List( &list );
+    Free_List( &dup );
 }
 
 
