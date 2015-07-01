@@ -29,7 +29,7 @@ START_DECLS
 typedef struct list_s
 {
     dataptr         data;     /**< the data in the List segment */
-    uint32          alloc;    /**< the allocation size of the data */
+    size_t          alloc;    /**< the allocation size of the data */
     struct list_s   *next;    /**< the next segment in the List */
 
     void            ( *Free )( void *data ); /**< function pointer for custom free functions */
@@ -65,7 +65,7 @@ void Append_To_List( List *list, dataptr data, size_t size, void ( *Free )( void
  * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
-void Prepend_To_List( List *list, dataptr data, size_t size, void ( *Free )( void *data ) );
+void Prepend_To_List( List **list, dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief inserts data into a List at an index
@@ -76,7 +76,7 @@ void Prepend_To_List( List *list, dataptr data, size_t size, void ( *Free )( voi
  * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
-void Insert_Into_List( List *list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) );
+void Insert_Into_List( List **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief finds data in a List
@@ -121,7 +121,7 @@ List* Duplicate_List( List *list );
  * @param list the List to remove from
  * @param seg the segment to remove
  */
-void Remove_List_Segment( List *list, List *seg );
+void Remove_List_Segment( List **list, List *seg );
 
 /**
  * @brief removes data from a List
@@ -130,7 +130,7 @@ void Remove_List_Segment( List *list, List *seg );
  * @param rm the data to remove
  * @param all determines whether to remove all the rm or just the 1st instance
  */
-void Remove_From_List( List *list, dataptr rm, Bool all );
+void Remove_From_List( List **list, dataptr rm, Bool all );
 
 /**
  * @brief frees the memory from a segment of a List
