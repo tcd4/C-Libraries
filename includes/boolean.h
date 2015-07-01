@@ -6,6 +6,10 @@
  * @file boolean.h
  *
  * @brief contains support for the standard boolean type
+ *
+ * Boolean Type - Bool
+ *
+ * Conversion Functions - String_To_Bool( char *s ), String_To_True( char *s ), String_To_False( char *s ), Bool_To_String( Bool b )
  */
 
 
