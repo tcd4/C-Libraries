@@ -15,6 +15,7 @@
  */
 
 
+#include <string.h>
 #include "stdmacros.h"
 #include "stdtypes.h"
 #include "platforms.h"
@@ -39,7 +40,7 @@ typedef struct list_s
  * @brief initializes a new List
  *
  * @param data the data to put in the List
- * @param size the allocation size of the data
+ * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  *
  * @return a pointer to the newly created List
@@ -51,7 +52,7 @@ List* New_List( dataptr data, uint32 size, void ( *Free )( void *data ) );
  *
  * @param list the List to append to
  * @param data the data to put in the List
- * @param size the allocation size of the data
+ * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
 void Append_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void *data ) );
@@ -61,7 +62,7 @@ void Append_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void
  *
  * @param list the List to prepend to
  * @param data the data to put in the List
- * @param size the allocation size of the data
+ * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
 void Prepend_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void *data ) );
@@ -72,7 +73,7 @@ void Prepend_To_List( List *list, dataptr data, uint32 size, void ( *Free )( voi
  * @param list the List to insert into
  * @param index the index to insert into
  * @param data the data to put in the List
- * @param size the allocation size of the data
+ * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
 void Insert_Into_List( List *list, uint32 index, dataptr data, uint32 size, void ( *Free )( void *data ) );
