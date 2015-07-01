@@ -22,7 +22,7 @@
 START_DECLS
 
 
-/*< the boolean type */
+/**< the boolean type */
 typedef uint8 Bool;
 
 

@@ -19,9 +19,9 @@
 
 
 /* macro statements */
-/*< begins a statement for creating macros */
+/**< begins a statement for creating macros */
 #define STMT_START   do{
-/*< ends a statement for creating macros */
+/**< ends a statement for creating macros */
 #define STMT_END     }while(0)
 
 

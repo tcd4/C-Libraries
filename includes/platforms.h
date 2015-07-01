@@ -15,9 +15,9 @@
 
 /* cross language coding declarations for c++ */
 #ifdef __cplusplus
-/*< start declaration for cross language coding */
+/**< start declaration for cross language coding */
 #define START_DECLS   extern "C" {
-/*< end declaration for cross language coding */
+/**< end declaration for cross language coding */
 #define END_DECLS     }
 #else
 #define START_DECLS
@@ -27,7 +27,7 @@
 
 /* windows defines */
 #ifdef _WIN32
-/*< define for Windows specfic code */
+/**< define for Windows specfic code */
 #define OS_WINDOWS     1
 #else
 #define OS_WINDOWS
@@ -35,7 +35,7 @@
 
 #ifdef _WIN64
 #define OS_WINDOWS     1
-/*< define for Windows 64 bit specfic code */
+/**< define for Windows 64 bit specfic code */
 #define WINDOWS64      1
 #else
 #define OS_WINDOWS
@@ -44,7 +44,7 @@
 
 /* mac define */
 #ifdef __APPLE__
-/*< define for Mac specfic code */
+/**< define for Mac specfic code */
 #define OS_MAC         1
 #else
 #define OS_MAC
@@ -52,7 +52,7 @@
 
 /* unix define */
 #ifdef __unix__
-/*< define for Unix specfic code */
+/**< define for Unix specfic code */
 #define OS_UNIX        1
 #else
 #define OS_UNIX
@@ -60,7 +60,7 @@
 
 /* linux define */
 #ifdef __linux__
-/*< define for Linux specfic code */
+/**< define for Linux specfic code */
 #define OS_LINUX       1
 #else
 #define OS_LINUX

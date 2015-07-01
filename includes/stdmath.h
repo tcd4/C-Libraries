@@ -20,26 +20,26 @@
 
 
 /* constant defines */
-/*< PI define */
+/**< PI define */
 #define PI 3.14159265
 
-/*< TAU define */
+/**< TAU define */
 #define TAU 6.283185308
 
 
 /* conversion constants */
-/*< radian to degree conversion constant */
+/**< radian to degree conversion constant */
 #define TODEG 57.2957795
 
-/*< degree to radian conversion constant */
+/**< degree to radian conversion constant */
 #define TORAD 0.0174532925
 
 
 /* conversion macros */
-/*< converts an angle from radians to degrees */
+/**< converts an angle from radians to degrees */
 #define Angle_To_Deg( a )                       ( a * TODEG )
 
-/*< converts an angle from degrees to radians */
+/**< converts an angle from degrees to radians */
 #define Angle_To_Rad( a )                       ( a * TORAD )
 
 
