@@ -1,11 +1,11 @@
 #include "boolean.h"
 
 
-Bool String_To_Bool( char *str )
+Bool String_To_Bool( char *s )
 {
-    Return_Val_If_Fail( str, FALSE );
+    Return_Val_If_Fail( s, FALSE );
 
-    if( String_To_True( str ) )
+    if( String_To_True( s ) )
     {
 	return TRUE;
     }
@@ -14,13 +14,13 @@ Bool String_To_Bool( char *str )
 }
 
 
-Bool String_To_True( char *str )
+Bool String_To_True( char *s )
 {
-    Return_Val_If_Fail( str, FALSE );
+    Return_Val_If_Fail( s, FALSE );
 
-    if( ( strcmp( str, "true" ) == 0 ) ||
-	( strcmp( str, "True" ) == 0 ) ||
-	( strcmp( str, "TRUE" ) == 0 ) )
+    if( ( strcmp( s, "true" ) == 0 ) ||
+	( strcmp( s, "True" ) == 0 ) ||
+	( strcmp( s, "TRUE" ) == 0 ) )
     {
 	return TRUE;
     }
@@ -29,13 +29,13 @@ Bool String_To_True( char *str )
 }
 
 
-Bool String_To_False( char *str )
+Bool String_To_False( char *s )
 {
-    Return_Val_If_Fail( str, TRUE );
+    Return_Val_If_Fail( s, TRUE );
 
-    if( ( strcmp( str, "false" ) == 0 ) ||
-	( strcmp( str, "False" ) == 0 ) ||
-	( strcmp( str, "FALSE" ) == 0 ) )
+    if( ( strcmp( s, "false" ) == 0 ) ||
+	( strcmp( s, "False" ) == 0 ) ||
+	( strcmp( s, "FALSE" ) == 0 ) )
     {
 	return FALSE;
     }
