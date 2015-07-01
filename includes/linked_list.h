@@ -45,7 +45,7 @@ typedef struct list_s
  *
  * @return a pointer to the newly created List
  */
-List* New_List( dataptr data, uint32 size, void ( *Free )( void *data ) );
+List* New_List( dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief appends data to a List
@@ -55,7 +55,7 @@ List* New_List( dataptr data, uint32 size, void ( *Free )( void *data ) );
  * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
-void Append_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void *data ) );
+void Append_To_List( List *list, dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief prepends data to a List
@@ -65,7 +65,7 @@ void Append_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void
  * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
-void Prepend_To_List( List *list, dataptr data, uint32 size, void ( *Free )( void *data ) );
+void Prepend_To_List( List *list, dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief inserts data into a List at an index
@@ -76,7 +76,7 @@ void Prepend_To_List( List *list, dataptr data, uint32 size, void ( *Free )( voi
  * @param size the allocation size of the data ( 0 if you don't want to allocate )
  * @param Free a pointer to the data's custom free function
  */
-void Insert_Into_List( List *list, uint32 index, dataptr data, uint32 size, void ( *Free )( void *data ) );
+void Insert_Into_List( List *list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) );
 
 /**
  * @brief finds data in a List
