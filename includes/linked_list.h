@@ -10,8 +10,9 @@
  *
  * Create Function - New_List()
  * Add To Functions - Append_To_List(), Prepend_To_List(), Insert_Into_List()
+ * Remove From Functions - Remove_List_Segment(), Remove_From_List()
  * Util Functions - Find_In_List(), End_Of_List(), Length_Of_List(), Duplicate_List()
- * Free Functiosn - Free_List_Segment(), Free_List()
+ * Free Functions - Free_List_Segment(), Free_List()
  */
 
 
