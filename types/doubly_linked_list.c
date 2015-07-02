@@ -144,5 +144,24 @@ DList* Find_In_DList( DList *list, dataptr data )
 }
 
 
+DList* Duplicate_DList( DList *list )
+{
+    DList *dup;
+
+    Return_Val_If_Fail( list, NULL );
+
+    dup = New_DList( list->data, list->alloc, list->Free );
+    list = list->next;
+
+    while( list )
+    {
+	Append_To_DList( dup, list->data, list->alloc, list->Free );
+	list = list->next;
+    }
+
+    return dup;
+}
+
+
 
 /*eof*/

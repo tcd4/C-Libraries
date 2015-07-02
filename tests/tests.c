@@ -22,7 +22,7 @@ int main( int argc, char *argv[] )
 
 void DList_Test()
 {
-    DList *list, *temp;
+    DList *list, *dup, *temp;
     int a;
     int *b;
 
@@ -92,6 +92,16 @@ void DList_Test()
     while( temp )
     {
 	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
+
+
+    printf( "\nDuplicate_DList Test\n" );
+    dup = Duplicate_DList( list );
+    temp = dup;
+    while( temp )
+    {
+	printf( "dup: %i\n", *( int* )( temp->data ) );
 	temp = temp->next;
     }
 }
