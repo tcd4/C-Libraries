@@ -246,4 +246,24 @@ void Free_DList_Segment( DList **seg )
 }
 
 
+void Free_DList( DList **list )
+{
+    DList *temp, *next;
+
+    Return_If_Fail( list );
+    Return_If_Fail( *list );
+
+    temp = *list;
+
+    while( temp )
+    {
+	next = temp->next;
+	Free_DList_Segment( &temp );
+	temp = next;
+    }
+
+    *list = NULL;
+}
+
+
 /*eof*/

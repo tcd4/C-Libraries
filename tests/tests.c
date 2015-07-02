@@ -114,6 +114,15 @@ void DList_Test()
 	printf( "dup: %i\n", *( int* )( temp->data ) );
 	temp = temp->next;
     }
+
+
+    printf( "\nFree_DList Test\n" );
+    b = NULL;
+    Free_DList( &list );
+    Free_DList( &dup );
+
+
+    printf( "\nSuccess\n" );
 }
 
 
