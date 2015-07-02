@@ -2,17 +2,55 @@
 #include "debug.h"
 #include "boolean.h"
 #include "linked_list.h"
+#include "doubly_linked_list.h"
 
 
 void Bool_Test();
 void List_Test();
+void DList_Test();
 
 
 int main( int argc, char *argv[] )
 {
     /*Bool_Test();*/
-    List_Test();
+    /*List_Test();*/
+    DList_Test();
+
     return 0;
+}
+
+
+void DList_Test()
+{
+    DList *list, *temp;
+    int a;
+
+    printf( "\n##### DList Test #####\n" );
+
+    printf( "New_DList Test\n" );
+    a = 5;
+    list = New_DList( &a, sizeof( int ), NULL );
+    if( !list )
+    {
+	printf( "failed to create DList\n" );
+	return;
+    }
+    printf( "start data: %i\n", *( int* )( list->data ) );
+
+    printf( "\nPrepend_To_DList test\n" );
+    for( a = 4; a >= 0; a-- )
+    {
+	Prepend_To_DList( &list, &a, sizeof( int ), NULL );
+	printf( "prepended: %i\n", *( int* )( list->data ) );
+    }
+
+    printf( "\nDList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
 }
 
 
