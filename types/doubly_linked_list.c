@@ -46,4 +46,58 @@ void Prepend_To_DList( DList **list, dataptr data, size_t size, void ( *Free )( 
     *list = new;
 }
 
+
+
+void Insert_Into_DList( DList **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) )
+{
+    DList *new, *temp;
+    uint32 i;
+
+    Return_If_Fail( list );
+    Return_If_Fail( *list );
+    Return_If_Fail( index < 0 );
+
+    if( index == 0 )
+    {
+	Prepend_To_DList( list, data, size, Free );
+	return;
+    }
+
+    new = New_DList( data, size, Free );
+    Return_If_Fail( new );
+
+    temp = *list;
+    temp = temp->next;
+    i = 1;
+    
+    while( temp )
+    {
+	if( i == index )
+	{
+	    new->next = temp;
+	    new->prev = temp->prev;
+	    temp->prev->next = new;
+
+	    break;
+	}
+
+	i++;
+	temp = temp->next;
+    }
+}
+
+
+DList* End_Of_DList( DList *list )
+{
+    Return_Val_If_Fail( list, NULL );
+
+    while( list->next )
+    {
+	list = list->next;
+    }
+
+    return list;
+}
+
+
 /*eof*/
