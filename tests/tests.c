@@ -24,6 +24,8 @@ void DList_Test()
 {
     DList *list, *temp;
     int a;
+    int *b;
+
 
     printf( "\n##### DList Test #####\n" );
 
@@ -76,6 +78,13 @@ void DList_Test()
 
     printf( "\nLength_Of_DList Test\n" );
     printf( "length: %i\n", ( int )( Length_Of_DList( list ) ) );
+
+
+    printf( "\nFind_In_DList Test\n" );
+    b = &a;
+    Insert_Into_DList( &list, 5, b, 0, NULL );
+    if( Find_In_DList( list, b ) ) printf( "found it\n" );
+    else printf( "didn't find it\n" );
 
 
     printf( "\nDList Check\n" );

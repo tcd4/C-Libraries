@@ -130,4 +130,19 @@ uint32 Length_Of_DList( DList *list )
 }
 
 
+DList* Find_In_DList( DList *list, dataptr data )
+{
+    Return_Val_If_Fail( list, NULL );
+
+    while( list )
+    {
+	if( list->data == data ) break;
+	list = list->next;
+    }
+    
+    return list;
+}
+
+
+
 /*eof*/
