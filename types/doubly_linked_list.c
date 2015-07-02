@@ -114,4 +114,20 @@ DList* End_Of_DList( DList *list )
 }
 
 
+uint32 Length_Of_DList( DList *list )
+{
+    uint32 i = 0;
+
+    Return_Val_If_Fail( list, 0 );
+
+    while( list )
+    {
+	i++;
+	list = list->next;
+    }
+
+    return i;
+}
+
+
 /*eof*/

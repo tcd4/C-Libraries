@@ -39,6 +39,10 @@ void DList_Test()
     printf( "start data: %i\n", *( int* )( list->data ) );
 
 
+    printf( "\nLength_Of_DList Test\n" );
+    printf( "length: %i\n", ( int )( Length_Of_DList( list ) ) );
+
+
     printf( "\nPrepend_To_DList Test\n" );
     for( a = 4; a >= 0; a-- )
     {
@@ -70,6 +74,8 @@ void DList_Test()
     Insert_Into_DList( &list, a, &a, sizeof( int ), NULL );
 
 
+    printf( "\nLength_Of_DList Test\n" );
+    printf( "length: %i\n", ( int )( Length_Of_DList( list ) ) );
 
 
     printf( "\nDList Check\n" );
