@@ -93,6 +93,10 @@ void DList_Test()
     Remove_DList_Segment( &list, list );
 
 
+    printf( "\nRemove_From_DList Test\n" );
+    Remove_From_DList( &list, b, FALSE );
+
+
     printf( "\nDList Check\n" );
     temp = list;
     while( temp )

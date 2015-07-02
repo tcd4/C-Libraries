@@ -163,6 +163,40 @@ DList* Duplicate_DList( DList *list )
 }
 
 
+void Remove_From_DList( DList **list, dataptr rm, Bool all )
+{
+    DList *temp;
+
+    Return_If_Fail( list );
+    Return_If_Fail( *list );
+
+    temp = *list;
+
+    while( temp  )
+    {
+	if( temp->data == rm )
+	{
+	    if( !temp->prev )
+	    {
+		*list = temp->next;
+		temp->prev = NULL;
+	    }
+	    else
+	    {
+		temp->prev->next = temp->next;
+		temp->next->prev = temp->prev;
+	    }
+
+	    free( temp );
+
+	    if( !all ) break;
+	}
+
+	temp = temp->next;
+    }
+}
+
+
 void Remove_DList_Segment( DList **list, DList *seg )
 {
     DList *temp;
