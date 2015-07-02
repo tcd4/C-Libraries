@@ -3,20 +3,64 @@
 #include "boolean.h"
 #include "linked_list.h"
 #include "doubly_linked_list.h"
+#include "queue.h"
 
 
+void Test_All();
+void Test_Specific( char *subjects );
 void Bool_Test();
 void List_Test();
 void DList_Test();
+void Queue_Test();
 
 
 int main( int argc, char *argv[] )
 {
-    /*Bool_Test();*/
-    /*List_Test();*/
-    DList_Test();
+    char *input;
+
+    input = C_New( char, 32 );
+    printf( "Pick a Test: all, Bool, List, DList, Queue\n" );
+    gets( input );
+
+    if( strcmp( input, "all" ) == 0 ) Test_All();
+    else Test_Specific( input );
 
     return 0;
+}
+
+
+void Test_All()
+{
+    Bool_Test();
+    List_Test();
+    DList_Test();
+    Queue_Test();
+}
+
+
+void Test_Specific( char *subject )
+{
+    if( strcmp( subject, "Bool" ) == 0 ) Bool_Test();
+    else if( strcmp( subject, "List" ) == 0 ) List_Test();
+    else if( strcmp( subject, "DList" ) == 0 ) DList_Test();
+    else if( strcmp( subject, "Queue" ) == 0 ) Queue_Test();
+    else printf( "You Suck\n" );
+}
+
+
+void Queue_Test()
+{
+    Queue *queue;
+   
+    printf( "\n##### Queue Test #####\n" );
+
+    printf( "\nNew_Queue Test\n" );
+    queue = New_Queue( sizeof( int ), NULL );
+    if( !queue )
+    {
+	printf( "failure\n" );
+	return;
+    }
 }
 
 
