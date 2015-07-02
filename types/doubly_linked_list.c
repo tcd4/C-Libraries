@@ -163,5 +163,53 @@ DList* Duplicate_DList( DList *list )
 }
 
 
+void Remove_DList_Segment( DList **list, DList *seg )
+{
+    DList *temp;
+
+    Return_If_Fail( list );
+    Return_If_Fail( *list );
+    Return_If_Fail( seg );
+
+    temp = *list;
+
+    if( temp == seg )
+    {
+	*list = temp->next;
+	temp->prev = NULL;
+    }
+    else
+    {
+	while( temp && temp->next && ( temp->next != seg ) )
+	{
+	    temp = temp->next;
+	}
+
+	Return_If_Fail( temp );
+
+	temp->next = seg->next;
+	seg->next->prev = temp;
+    }
+
+    Free_DList_Segment( &seg );
+}
+
+
+void Free_DList_Segment( DList **seg )
+{
+    DList *temp;
+
+    Return_If_Fail( seg );
+    Return_If_Fail( *seg );
+
+    temp = *seg;
+
+    if( temp->Free ) temp->Free( temp->data );
+    else free( temp->data );
+
+    free( temp );
+    *seg = NULL;
+}
+
 
 /*eof*/

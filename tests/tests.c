@@ -87,6 +87,12 @@ void DList_Test()
     else printf( "didn't find it\n" );
 
 
+    printf( "\nRemove_DList_Segment and Free_DList_Segment tests\n" );
+    temp = list->next->next;
+    Remove_DList_Segment( &list, temp );
+    Remove_DList_Segment( &list, list );
+
+
     printf( "\nDList Check\n" );
     temp = list;
     while( temp )
