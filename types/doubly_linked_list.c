@@ -47,6 +47,20 @@ void Prepend_To_DList( DList **list, dataptr data, size_t size, void ( *Free )( 
 }
 
 
+void Append_To_DList( DList *list, dataptr data, size_t size, void ( *Free )( void *data ) )
+{
+    DList *new, *end;
+
+    Return_If_Fail( list );
+
+    new = New_DList( data, size, Free );
+    Return_If_Fail( new );
+
+    end = End_Of_DList( list );
+    end->next = new;
+    new->prev = end;
+}
+
 
 void Insert_Into_DList( DList **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) )
 {

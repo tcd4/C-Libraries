@@ -52,6 +52,14 @@ void DList_Test()
     printf( "end data: %i\n", *( int* )( temp->data ) );
 
 
+    printf( "\nAppend_To_DList Test\n" );
+    for( a = 6; a <= 9; a++ )
+    {
+	Append_To_DList( list, &a, sizeof( int ), NULL );
+	temp = End_Of_DList( list );
+	printf( "appended: %i\n", *( int* )( temp->data ) );
+    }
+
 
     printf( "\nInsert_Into_DList Test\n" );
     a = 6;
