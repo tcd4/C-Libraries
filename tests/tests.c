@@ -6,8 +6,10 @@
 #include "queue.h"
 
 
+void Pick();
 void Test_All();
 void Test_Specific( char *subjects );
+
 void Bool_Test();
 void List_Test();
 void DList_Test();
@@ -16,16 +18,23 @@ void Queue_Test();
 
 int main( int argc, char *argv[] )
 {
+    Pick();
+
+    return 0;
+}
+
+
+void Pick()
+{
     char *input;
 
     input = C_New( char, 32 );
-    printf( "Pick a Test: all, Bool, List, DList, Queue\n" );
-    gets( input );
+
+    printf( "Pick a Test: all, bool, list, dlist, queue\n" );
+    scanf( "%s", input );
 
     if( strcmp( input, "all" ) == 0 ) Test_All();
     else Test_Specific( input );
-
-    return 0;
 }
 
 
@@ -40,11 +49,15 @@ void Test_All()
 
 void Test_Specific( char *subject )
 {
-    if( strcmp( subject, "Bool" ) == 0 ) Bool_Test();
-    else if( strcmp( subject, "List" ) == 0 ) List_Test();
-    else if( strcmp( subject, "DList" ) == 0 ) DList_Test();
-    else if( strcmp( subject, "Queue" ) == 0 ) Queue_Test();
-    else printf( "You Suck\n" );
+    if( strcmp( subject, "bool" ) == 0 ) Bool_Test();
+    else if( strcmp( subject, "list" ) == 0 ) List_Test();
+    else if( strcmp( subject, "dList" ) == 0 ) DList_Test();
+    else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
+    else 
+    {
+	printf( "You Suck\n" );
+	Pick();
+    }
 }
 
 
