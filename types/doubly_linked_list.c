@@ -146,17 +146,26 @@ DList* Find_In_DList( DList *list, dataptr data )
 
 DList* Duplicate_DList( DList *list )
 {
-    DList *dup;
+    DList *dup, *temp;
 
     Return_Val_If_Fail( list, NULL );
 
     dup = New_DList( list->data, list->alloc, list->Free );
+    Return_Val_If_Fail( dup, NULL ); 
+
+    temp = list;
     list = list->next;
 
     while( list )
     {
 	Append_To_DList( dup, list->data, list->alloc, list->Free );
 	list = list->next;
+    }
+
+    if( ( Length_Of_DList( dup ) != Length_Of_DList( temp ) ) )
+    {
+	Free_DList( &dup );
+	return NULL;
     }
 
     return dup;
