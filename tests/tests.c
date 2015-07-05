@@ -67,8 +67,12 @@ void Test_Specific( char *subject )
 void Stack_Test()
 {
     Stack *stack;
+    int a;
+    dataptr p;
+
 
     printf( "\n##### Stack Test #####\n" );    
+
 
     printf( "\nNew_Stack Test\n" );
     stack = New_Stack( sizeof( int ), NULL );
@@ -77,6 +81,21 @@ void Stack_Test()
 	printf( "failure\n" );
 	return;
     }
+
+
+    printf( "\nPush_Stack Test\n" );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Stack( stack, &a );
+    }
+
+
+    printf( "\nPop_Stack Test\n" );
+    while( ( p = Pop_Stack( stack ) ) )
+    {
+	printf( "popped: %i\n", *( int* )( p ) );
+    }
+
 
     printf( "\nSuccess\n" );
 }

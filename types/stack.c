@@ -46,7 +46,8 @@ dataptr Pop_Stack( Stack *stack )
 
     temp = stack->end->data;
     Remove_From_List( &stack->start, temp, FALSE );
-
+    
+    stack->end = End_Of_List( stack->start );
     stack->length--;
 
     return temp;
