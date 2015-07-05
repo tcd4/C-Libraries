@@ -140,17 +140,26 @@ uint32 Length_Of_List( List *list )
 
 List* Duplicate_List( List *list )
 {
-    List *dup;
+    List *dup, *temp;
 
     Return_Val_If_Fail( list, NULL );
 
     dup = New_List( list->data, list->alloc, list->Free );
+    Return_Val_If_Fail( dup, NULL );
+
+    temp = list;
     list = list->next;
 
     while( list )
     {
 	Append_To_List( dup, list->data, list->alloc, list->Free );
 	list = list->next;
+    }
+
+    if( ( Length_Of_List( dup ) != Length_Of_List( temp ) ) )
+    {
+	Free_List( &dup );
+	return NULL;
     }
 
     return dup;
