@@ -76,6 +76,10 @@ void Queue_Test()
     }
 
 
+    printf( "\nQueue_Is_Empty Test\n" );
+    printf( "is empty: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
+
+
     printf( "\nPop_Queue Test\n" );
     while( ( p = Pop_Queue( queue ) ) )
     {
