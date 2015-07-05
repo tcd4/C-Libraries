@@ -50,7 +50,7 @@ void Test_Specific( char *subject )
 
 void Queue_Test()
 {
-    Queue *queue;
+    Queue *queue, *dup;
     int a;
     dataptr p;
 
@@ -87,6 +87,14 @@ void Queue_Test()
     }
 
 
+    printf( "\nDuplicate_Queue Test\n" );
+    dup = Duplicate_Queue( queue );
+    while( ( p = Pop_Queue( dup ) ) )
+    {
+	printf( "dup popped: %i\n", *( int* )( p ) );
+    }
+
+
     printf( "\nClear_Queue Test\n" );
     for( a = 0; a < 5; a++ )
     {
@@ -94,6 +102,8 @@ void Queue_Test()
     }
     Clear_Queue( queue );
     printf( "queue cleared: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
+
+    
 }
 
 

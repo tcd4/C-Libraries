@@ -67,16 +67,37 @@ Bool Queue_Is_Empty( Queue *queue )
     return FALSE;
 }
 
-/*
+
 Queue* Duplicate_Queue( Queue *queue )
 {
+    Queue *dup;
+    
+    Return_Val_If_Fail( queue, NULL );
+    
+    dup = New_Queue( queue->alloc, queue->Free );
+    Return_Val_If_Fail( dup, NULL );
+
+    dup->length = queue->length;
+
+    if( !queue->start ) dup->start = NULL;
+    else 
+    {
+	dup->start = Duplicate_List( queue->start );
+        if( !dup->start )
+	{
+	    Free_Queue( &dup );
+	    return NULL;
+	}
+    }
+
+    return dup;
 }
 
 
 void Free_Queue( Queue **queue )
 {
 }
-*/
+
 
 
 /*eof*/
