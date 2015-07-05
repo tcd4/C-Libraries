@@ -1,5 +1,5 @@
 #include "stack.h"
-
+#include "debug.h"
 
 Stack* New_Stack( size_t size, void ( *Free )( dataptr data ) )
 {
@@ -93,6 +93,7 @@ Stack* Duplicate_Stack( Stack *stack )
     }
 
     dup->length = stack->length;
+    dup->end = End_Of_List( dup->start );
 
     return dup;
 }

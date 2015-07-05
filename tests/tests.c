@@ -66,21 +66,23 @@ void Test_Specific( char *subject )
 
 void Stack_Test()
 {
-    Stack *stack;
+    Stack *stack, *dup;
     int a;
     dataptr p;
 
-
-    printf( "\n##### Stack Test #####\n" );    
+    printf( "\n##### Stack Test #####\n" );
 
 
     printf( "\nNew_Stack Test\n" );
     stack = New_Stack( sizeof( int ), NULL );
-    if( !stack  )
+    if( !stack )
     {
 	printf( "failure\n" );
 	return;
     }
+
+    printf( "\nIs_Stack_Empty Test\n" );
+    printf( "is empty: %s\n", Bool_To_String( Is_Stack_Empty( stack ) ) );
 
 
     printf( "\nPush_Stack Test\n" );
@@ -90,11 +92,41 @@ void Stack_Test()
     }
 
 
+    printf( "\nDuplicate_Stack Test\n" );
+    dup = Duplicate_Stack( stack );
+    while( ( p = Pop_Stack( dup ) ) )
+    {
+	printf( "popped: %i\n", *( int* )( p ) );
+    }
+
+
+    printf( "\nIs_Stack_Empty Test\n" );
+    printf( "is empty: %s\n", Bool_To_String( Is_Stack_Empty( stack ) ) );
+
+
     printf( "\nPop_Stack Test\n" );
     while( ( p = Pop_Stack( stack ) ) )
     {
 	printf( "popped: %i\n", *( int* )( p ) );
     }
+
+
+    printf( "\nClear_Stack Test\n" );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Stack( stack, &a );
+    }
+    Clear_Stack( stack );
+    printf( "stack cleared: %s\n", Bool_To_String( Is_Stack_Empty( stack ) ) );
+
+   
+    printf( "\nFree_Stack Test\n" );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Stack( stack, &a );
+    }
+    Free_Stack( &stack );
+    if( stack ) printf( "Failure\n" );
 
 
     printf( "\nSuccess\n" );
