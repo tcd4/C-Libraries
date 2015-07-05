@@ -96,8 +96,17 @@ Queue* Duplicate_Queue( Queue *queue )
 
 void Free_Queue( Queue **queue )
 {
-}
+    Queue *temp;
 
+    Return_If_Fail( queue );
+    Return_If_Fail( *queue );
+
+    temp = *queue;
+
+    Free_List( &temp->start );
+    free( temp );
+    *queue = NULL;
+}
 
 
 /*eof*/
