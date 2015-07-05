@@ -13,6 +13,9 @@
  */
 
 
+#include <stdio.h>
+
+
 /* location macros */
 /**
  * @brief prints the line number and file to the console
