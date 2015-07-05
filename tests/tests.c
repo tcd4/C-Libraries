@@ -4,6 +4,7 @@
 #include "linked_list.h"
 #include "doubly_linked_list.h"
 #include "queue.h"
+#include "stack.h"
 
 
 void Pick();
@@ -14,6 +15,7 @@ void Bool_Test();
 void List_Test();
 void DList_Test();
 void Queue_Test();
+void Stack_Test();
 
 
 int main( int argc, char *argv[] )
@@ -30,7 +32,7 @@ void Pick()
 
     input = C_New( char, 32 );
 
-    printf( "Pick a Test: all, bool, list, dlist, queue\n" );
+    printf( "Pick a Test: all, bool, list, dlist, queue, stack\n" );
     scanf( "%s", input );
 
     if( strcmp( input, "all" ) == 0 ) Test_All();
@@ -53,11 +55,30 @@ void Test_Specific( char *subject )
     else if( strcmp( subject, "list" ) == 0 ) List_Test();
     else if( strcmp( subject, "dList" ) == 0 ) DList_Test();
     else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
+    else if( strcmp( subject, "stack" ) == 0 ) Stack_Test();
     else 
     {
 	printf( "You Suck\n" );
 	Pick();
     }
+}
+
+
+void Stack_Test()
+{
+    Stack *stack;
+
+    printf( "\n##### Stack Test #####\n" );    
+
+    printf( "\nNew_Stack Test\n" );
+    stack = New_Stack( sizeof( int ), NULL );
+    if( !stack  )
+    {
+	printf( "failure\n" );
+	return;
+    }
+
+    printf( "\nSuccess\n" );
 }
 
 
