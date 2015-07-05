@@ -59,12 +59,15 @@ void Clear_Queue( Queue *queue )
     queue->length = 0;
 }
 
-/*
+
 Bool Queue_Is_Empty( Queue *queue )
 {
+    Return_Val_If_Fail( queue, FALSE );
+    Return_Val_If_Fail( queue->start, TRUE );
+    return FALSE;
 }
 
-
+/*
 Queue* Duplicate_Queue( Queue *queue )
 {
 }

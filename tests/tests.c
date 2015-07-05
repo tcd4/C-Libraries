@@ -65,6 +65,9 @@ void Queue_Test()
 	return;
     }
 
+    printf( "\nQueue_Is_Empty Test\n" );
+    printf( "is empty: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
+
 
     printf( "\nPush_Queue Test\n" );
     for( a = 0; a < 5; a++ )
