@@ -45,15 +45,21 @@ dataptr Pop_Queue( Queue *queue )
     temp = queue->start->data;
     Remove_From_List( &queue->start, temp, FALSE );
 
+    queue->length--;
+
     return temp;
 }
 
-/*
+
 void Clear_Queue( Queue *queue )
 {
+    Return_If_Fail( queue );
+
+    Free_List( &queue->start );
+    queue->length = 0;
 }
 
-
+/*
 Bool Queue_Is_Empty( Queue *queue )
 {
 }
