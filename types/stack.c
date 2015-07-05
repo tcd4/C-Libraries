@@ -53,24 +53,64 @@ dataptr Pop_Stack( Stack *stack )
     return temp;
 }
 
-/*
+
 void Clear_Stack( Stack *stack )
 {
+    Return_If_Fail( stack );
+
+    Free_List( &stack->start );
+    stack->end = NULL;
+    stack->length = 0;
 }
 
 
 Bool Is_Stack_Empty( Stack *stack )
 {
+    Return_Val_If_Fail( stack, FALSE );
+    Return_Val_If_Fail( stack->start, TRUE );
+    return FALSE;
 }
 
 
 Stack* Duplicate_Stack( Stack *stack )
 {
+    Stack *dup;
+
+    Return_Val_If_Fail( stack, NULL );
+
+    dup = New_Stack( stack->alloc, stack->Free );
+    Return_Val_If_Fail( dup, NULL );
+
+    if( !stack->start ) dup->start = NULL;
+    else
+    {
+	dup->start = Duplicate_List( stack->start );
+	if( !dup->start )
+	{
+	    Free_Stack( &dup );
+	    return NULL;
+	}
+    }
+
+    dup->length = stack->length;
+
+    return dup;
 }
 
 
 void Free_Stack( Stack **stack )
 {
+    Stack *temp;
+
+    Return_If_Fail( stack );
+    Return_If_Fail( *stack );
+
+    temp = *stack;
+
+    Free_List( &temp->start );
+    free( temp );
+    *stack = NULL;
 }
-*/
+
+
 /*eof*/
