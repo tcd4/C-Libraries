@@ -18,7 +18,7 @@
  * @brief prints the line number and file to the console
  * WARNING: DO NOT USE A SEMI-COLON AFTER IT
  */
-#define HERE                  printf( "You are on line %s in file %s\n", __LINE__, __FILE__ );
+#define HERE                  printf( "You are on line %i in file %s\n", __LINE__, __FILE__ );
 
 
 /* tracer macros */
