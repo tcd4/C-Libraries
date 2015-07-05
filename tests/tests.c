@@ -51,8 +51,11 @@ void Test_Specific( char *subject )
 void Queue_Test()
 {
     Queue *queue;
-   
+    int a;
+    dataptr p;
+
     printf( "\n##### Queue Test #####\n" );
+
 
     printf( "\nNew_Queue Test\n" );
     queue = New_Queue( sizeof( int ), NULL );
@@ -60,6 +63,20 @@ void Queue_Test()
     {
 	printf( "failure\n" );
 	return;
+    }
+
+
+    printf( "\nPush_Queue Test\n" );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Queue( queue, &a );
+    }
+
+
+    printf( "\nPop_Queue Test\n" );
+    while( ( p = Pop_Queue( queue ) ) )
+    {
+	printf( "popped: %i\n", *( int* )( p ) );
     }
 }
 
