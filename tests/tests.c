@@ -76,6 +76,13 @@ void Queue_Test()
     }
 
 
+    printf( "\nDuplicate_Queue Test\n" );
+    dup = Duplicate_Queue( queue );
+    while( ( p = Pop_Queue( dup ) ) )
+    {
+	printf( "popped: %i\n", *( int* )( p ) );
+    }
+
     printf( "\nQueue_Is_Empty Test\n" );
     printf( "is empty: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
 
@@ -84,14 +91,6 @@ void Queue_Test()
     while( ( p = Pop_Queue( queue ) ) )
     {
 	printf( "popped: %i\n", *( int* )( p ) );
-    }
-
-
-    printf( "\nDuplicate_Queue Test\n" );
-    dup = Duplicate_Queue( queue );
-    while( ( p = Pop_Queue( dup ) ) )
-    {
-	printf( "dup popped: %i\n", *( int* )( p ) );
     }
 
 
