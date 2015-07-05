@@ -103,6 +103,16 @@ void Queue_Test()
     printf( "queue cleared: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
 
     
+    printf( "\nFree_Queue Test\n" );
+    Free_Queue( &dup );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Queue( queue, &a );
+    }
+    Free_Queue( &queue );
+    if( queue ) printf( "Failure\n" );
+
+    printf( "\nSuccess\n" );
 }
 
 
