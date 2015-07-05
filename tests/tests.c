@@ -85,6 +85,15 @@ void Queue_Test()
     {
 	printf( "popped: %i\n", *( int* )( p ) );
     }
+
+
+    printf( "\nClear_Queue Test\n" );
+    for( a = 0; a < 5; a++ )
+    {
+	Push_Queue( queue, &a );
+    }
+    Clear_Queue( queue );
+    printf( "queue cleared: %s\n", Bool_To_String( Queue_Is_Empty( queue ) ) );
 }
 
 
