@@ -10,8 +10,9 @@
  * Constants - PI, TAU
  * Conversion Constants - TODEG, TORAD
  * 
- * Conversion Macros - Angle_To_Deg( angle ), Angle_To_Rad( angle )
+ * Conversion Macros - Angle_To_Deg(), Angle_To_Rad()
  * RNG Macros - Random(), CRandom()
+ * Comparison Macros - MIN(), MAX()
  */
 
 
@@ -57,6 +58,18 @@
  * @return a random float from -1.0 to 1.0
  */
 #define CRandom()	( 2.0 * ( random() - 0.5 ) )
+
+
+/* comparision macros */
+#ifndef MIN
+/**< finds the min out of 2 variables */
+#define MIN( a, b )     ( ( a <= b ) ? a : b );
+#endif
+
+#ifndef MAX
+/**< finds the max out of 2 variables */
+#define MAX( a, b )     ( ( a >= b ) ? a : b );
+#endif
 
 
 #endif
