@@ -7,12 +7,34 @@
  *
  * @brief contains standard type definitions for C
  *
+ * Types Enum - CTypes
  * Integer Types - 8bit, 16bit, 32bit, 64bit signed and unsiged
  * Pointer Types - void * and const void * typedefs
  *
  * NULL define
  * TRUE and FALSE defines
  */
+
+
+/* types enum */
+typedef enum CTypes
+{
+    VOID,
+    INT,
+    UINT,
+    FLOAT,
+    DOUBLE,
+    LONG,
+    CHAR,
+    STRING,
+    LIST,
+    DLIST,
+    QUEUE,
+    ASYNC_QUEUE,
+    STACK,
+    HASH_TABLE,
+    CUSTOM
+}CTypes;
 
 
 /* unsigned sized int defines */
