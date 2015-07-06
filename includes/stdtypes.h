@@ -26,13 +26,6 @@ typedef enum CTypes
     DOUBLE,
     LONG,
     CHAR,
-    STRING,
-    LIST,
-    DLIST,
-    QUEUE,
-    ASYNC_QUEUE,
-    STACK,
-    HASH_TABLE,
     CUSTOM
 }CTypes;
 
