@@ -118,11 +118,9 @@ Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, voi
     Return_Val_If_Fail( new, FALSE );
 
     temp = *list;
-    i = 0;
 
-    while( i != index - 1 )
+    for( i = 0; i <= index - 1; i++ )
     {
-	i++;
 	temp = temp->next;
     }
 
@@ -189,7 +187,12 @@ List* Duplicate_List( List *list )
 
     while( list )
     {
-	if( !Append_To_List( dup, list->data, list->type, list->Free ) ) return NULL;
+	if( !Append_To_List( dup, list->data, list->type, list->Free ) ) 
+	{
+	    Free_List( &dup );
+	    return NULL;
+	}
+
 	list = list->next;
     }
 
