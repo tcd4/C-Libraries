@@ -1,39 +1,40 @@
 #include "stack.h"
 #include "debug.h"
 
-Stack* New_Stack( size_t size, void ( *Free )( dataptr data ) )
+Stack* New_Stack( CTypes type, void ( *Free )( dataptr data ) )
 {
     Stack *new;
 
     new = C_New( Stack, 1 );
     Return_Val_If_Fail( new, NULL );
 
-    new->start = NULL;
-    new->end = NULL;
-    new->length = 0;
-    new->alloc = size;
+    memset( new, 0, sizeof( Stack ) );
+    new->type = type;
     new->Free = Free;
 
     return new;
 }
 
 
-void Push_Stack( Stack *stack, dataptr data )
+Bool Push_Stack( Stack *stack, dataptr data )
 {
-    Return_If_Fail( stack );
+    Return_Val_If_Fail( stack, FALSE );
 
 
     if( stack->start )
     {
-	Append_To_List( stack->start, data, stack->alloc, stack->Free );
+	Return_Val_If_Fail( Append_To_List( stack->start, data, stack->type, stack->Free ), FALSE );
     }
     else
     {
-	stack->start = New_List( data, stack->alloc, stack->Free );
+	stack->start = New_List( data, stack->type, stack->Free );
+	Return_Val_If_Fail( stack->start, FALSE );
     }
 
     stack->end = End_Of_List( stack->start );
-    stack->length = Length_Of_List( stack->start );
+    stack->length++;
+
+    return TRUE;
 }
 
 
@@ -78,7 +79,7 @@ Stack* Duplicate_Stack( Stack *stack )
 
     Return_Val_If_Fail( stack, NULL );
 
-    dup = New_Stack( stack->alloc, stack->Free );
+    dup = New_Stack( stack->type, stack->Free );
     Return_Val_If_Fail( dup, NULL );
 
     if( !stack->start ) dup->start = NULL;

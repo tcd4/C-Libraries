@@ -15,11 +15,14 @@
  * Free Function - Free_Stack()
  *
  * WARNING - STACKS SHOULD ONLY CONTAIN 1 DATA TYPE
+ * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ * WARNING: MAKE SURE YOU HAVE NO POINTERS TO STACK DATA WHEN FREEING A STACK
  */
 
 
 #include <string.h>
 #include "stdmacros.h"
+#include "stdfuncs.h"
 #include "stdtypes.h"
 #include "platforms.h"
 #include "boolean.h"
@@ -35,7 +38,7 @@ typedef struct
     List       *start;                       /**< the first element in the stack */
     List       *end;                         /**< the last element in the stack */ 
     uint32     length;                       /**< the number of elements in the stack */
-    size_t     alloc;                        /**< the allocation size of the data */
+    CTypes     type;                         /**< the data type of the data */
 
     void       ( *Free )( dataptr data );    /**< function pointer for the data's custom free function */
 }Stack;
@@ -44,20 +47,22 @@ typedef struct
 /**
  * @brief creates a new Stack
  *
- * @param size the allocation size of the type of data the Stack will hold
+ * @param type the data type of the data
  * @param Free a pointer to the data's custom free function
  *
  * @return a pointer to the new Stack
  */
-Stack* New_Stack( size_t size, void ( *Free )( dataptr data ) );
+Stack* New_Stack( CTypes types, void ( *Free )( dataptr data ) );
 
 /**
  * @brief adds data onto the end of a Stack
  *
  * @param stack the Stack to push onto
  * @param data the data to push onto the Stack
+ *
+ * @return TRUE if push succeeded, FALSE if else
  */
-void Push_Stack( Stack *stack, dataptr data );
+Bool Push_Stack( Stack *stack, dataptr data );
 
 /**
  * @brief retrieves the data from the last element of th Stack and removes it from the Stack

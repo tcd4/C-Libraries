@@ -57,16 +57,14 @@ void Test_Specific( char *subject )
     else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
     else if( strcmp( subject, "stack" ) == 0 ) Stack_Test();
     else if( strcmp( subject, "quit" ) == 0 ) return;
-    else 
-    {
-	printf( "You Suck\n" );
-	Pick();
-    }
+    else printf( "You Suck\n" );
+
+    Pick();
 }
 
 
 void Stack_Test()
-{/*
+{
     Stack *stack, *dup;
     int a;
     dataptr p;
@@ -130,7 +128,7 @@ void Stack_Test()
     if( stack ) printf( "Failure\n" );
 
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 
