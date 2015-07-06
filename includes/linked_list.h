@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include "stdmacros.h"
+#include "stdfuncs.h"
 #include "stdtypes.h"
 #include "platforms.h"
 #include "boolean.h"
@@ -51,15 +52,6 @@ typedef struct list_s
  * @return a pointer to the newly created List
  */
 List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) );
-
-/**
- * @brief allocates the data for a list
- *
- * @param list the list to alloc the data for
- * @param data the data to alloc for
- * @param type the data type to allocate for
- */
-void Alloc_List_Data( List *list, dataptr data, CTypes type );
 
 /**
  * @brief appends data to a List

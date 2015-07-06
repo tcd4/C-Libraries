@@ -1,59 +1,6 @@
 #include "linked_list.h"
 
 
-void Alloc_List_Data( List *list, dataptr data, CTypes type )
-{
-    switch( type )
-    {
-    case NONE:
-	list->data = NULL;
-	break;
-    case VOID:
-	list->data = data;
-	break;
-    case INT:
-	list->data = malloc( sizeof( int32 ) );
-	memcpy( list->data, data, sizeof( int32 ) );
-	break;
-    case UINT:
-	list->data = malloc( sizeof( uint32 ) );
-	memcpy( list->data, data, sizeof( uint32 ) );
-	break;
-    case FLOAT:
-	list->data = malloc( sizeof( float ) );
-	memcpy( list->data, data, sizeof( float ) );
-	break;
-    case DOUBLE:
-	list->data = malloc( sizeof( double ) );
-	memcpy( list->data, data, sizeof( double ) );
-	break;
-    case LONG:
-	list->data = malloc( sizeof( long ) );
-	memcpy( list->data, data, sizeof( long ) );
-	break;
-    case CHAR:
-	list->data = malloc( sizeof( char ) );
-	memcpy( list->data, data, sizeof( char ) );
-	break;
-    case WORD:
-	list->data = malloc( sizeof( char ) * LINELEN );
-	memcpy( list->data, data, sizeof( char ) * WORDLEN );
-	break;
-    case LINE:
-	list->data = malloc( sizeof( char ) * LINELEN );
-	memcpy( list->data, data, sizeof( char ) * LINELEN );
-	break;
-    case PAGE:
-	list->data = malloc( sizeof( char ) * PAGELEN );
-	memcpy( list->data, data, sizeof( char ) * PAGELEN );
-	break;
-    case CUSTOM:
-	list->data = data;
-	break;
-    }
-}
-
-
 List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     List *new;
@@ -62,7 +9,7 @@ List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) )
     Return_Val_If_Fail( new, NULL );
 
     memset( new, 0, sizeof( List ) );
-    Alloc_List_Data( new, data, type );
+    new->data = Alloc_And_Set( data, type );
     new->type = type;
     new->Free = Free;
 
