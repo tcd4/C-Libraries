@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include "stdmacros.h"
+#include "stdfuncs.h"
 #include "stdtypes.h"
 #include "platforms.h"
 #include "boolean.h"
@@ -53,15 +54,6 @@ typedef struct dlist_s
  * @return a pointer to the newly created DList
  */
 DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) );
-
-/**
- * @brief allocates the data for a DList
- *
- * @param list the DList to alloc the data for
- * @param data the data to alloc for
- * @param type the data type to allocate for
- */
-void Alloc_DList_Data( DList *list, dataptr data, CTypes type );
 
 /**
  * @brief appends data to a DList
