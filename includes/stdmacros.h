@@ -1,9 +1,9 @@
-#ifndef __MACROS__
-#define __MACROS__
+#ifndef __STDMACROS__
+#define __STDMACROS__
 
 
 /**
- * @file macros.h
+ * @file stdmacros.h
  *
  * @brief contains macros for commonly used functions
  *
