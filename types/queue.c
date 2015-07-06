@@ -1,37 +1,38 @@
 #include "queue.h"
 
 
-Queue* New_Queue( size_t size, void ( *Free )( dataptr data ) )
+Queue* New_Queue( CTypes type, void ( *Free )( dataptr data ) )
 {
     Queue *new;
 
     new = C_New( Queue, 1 );
     Return_Val_If_Fail( new, NULL );
 
-    new->start = NULL;
-    new->length = 0;
-    new->alloc = size;
+    memset( new, 0, sizeof( Queue ) );
+    new->type = type;
     new->Free = Free;
 
     return new;
 }
 
 
-
-void Push_Queue( Queue *queue, dataptr data )
+Bool Push_Queue( Queue *queue, dataptr data )
 {
-    Return_If_Fail( queue );
+    Return_Val_If_Fail( queue, FALSE );
 
     if( queue->start )
     {
-	Append_To_List( queue->start, data, queue->alloc, queue->Free );
+	Return_Val_If_Fail( Append_To_List( queue->start, data, queue->type, queue->Free ), FALSE );
     }
     else
     {
-	queue->start = New_List( data, queue->alloc, queue->Free );
+	queue->start = New_List( data, queue->type, queue->Free );
+	Return_Val_If_Fail( queue->start, FALSE );
     }
 
-    queue->length = Length_Of_List( queue->start );
+    queue->length++;
+
+    return TRUE;
 }
 
 
@@ -74,7 +75,7 @@ Queue* Duplicate_Queue( Queue *queue )
     
     Return_Val_If_Fail( queue, NULL );
     
-    dup = New_Queue( queue->alloc, queue->Free );
+    dup = New_Queue( queue->type, queue->Free );
     Return_Val_If_Fail( dup, NULL );
 
     dup->length = queue->length;

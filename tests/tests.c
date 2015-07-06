@@ -135,7 +135,7 @@ void Stack_Test()
 
 
 void Queue_Test()
-{/*
+{
     Queue *queue, *dup;
     int a;
     dataptr p;
@@ -198,7 +198,7 @@ void Queue_Test()
     Free_Queue( &queue );
     if( queue ) printf( "Failure\n" );
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 
@@ -301,7 +301,7 @@ void DList_Test()
 	printf( "dup: %i\n", *( int* )( temp->data ) );
 	temp = temp->next;
     }
-   
+
 
     printf( "\nFree_DList Test\n" );
     Free_DList( &list );

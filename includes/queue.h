@@ -33,30 +33,31 @@ typedef struct
 {
     List       *start;                       /**< the first element in the queue */
     uint32     length;                       /**< the number of elements in the queue */
-    size_t     alloc;                        /**< the allocation size of the data */
+    CTypes     type;                         /**< the data type of the data */
 
     void       ( *Free )( dataptr data );    /**< function pointer for the data's custom free function */
 }Queue;
 
 
-
 /**
  * @brief creates a new Queue
  *
- * @param size the allocation size of the type of data the Queue will hold
+ * @param type the data type of the data
  * @param Free a pointer to the data's custom free function
  *
  * @return a pointer to the new Queue
  */
-Queue* New_Queue( size_t size, void ( *Free )( dataptr data ) );
+Queue* New_Queue( CTypes type, void ( *Free )( dataptr data ) );
 
 /**
  * @brief adds data onto the end of a Queue
  *
  * @param queue the Queue to push onto
  * @param data the data to push onto the Queue
+ *
+ * @return TRUE if push succeeded, FALSE if else
  */
-void Push_Queue( Queue *queue, dataptr data );
+Bool Push_Queue( Queue *queue, dataptr data );
 
 /**
  * @brief retrieves the data from the 1st element of the Queue and moves the Queue forward
@@ -66,7 +67,6 @@ void Push_Queue( Queue *queue, dataptr data );
  * @return a pointer to the popped data
  */
 dataptr Pop_Queue( Queue *queue );
-
 
 /**
  * @brief clears all the data from a Queue
