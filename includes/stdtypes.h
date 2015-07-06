@@ -9,6 +9,7 @@
  *
  * Types Enum - CTypes
  * Integer Types - 8bit, 16bit, 32bit, 64bit signed and unsiged
+ * Char Types - word, line, page
  * Pointer Types - void * and const void * typedefs
  *
  * NULL define
@@ -16,7 +17,7 @@
  */
 
 
-/* types enum */
+/**< data types enum */
 typedef enum CTypes
 {
     VOID,
@@ -26,7 +27,10 @@ typedef enum CTypes
     DOUBLE,
     LONG,
     CHAR,
-    CUSTOM
+    WORD,      /**< 32 bit char * */
+    LINE,      /**< 128 bit char * */
+    PAGE,      /**< 1024 bit char * */
+    CUSTOM     /**< user created data */
 }CTypes;
 
 
@@ -41,6 +45,17 @@ typedef signed char int8;                /**< signed 8 bit integer  */
 typedef signed short int16;              /**< signed 16 bit integer */
 typedef signed int int32;                /**< signed 32 bit integer */
 typedef signed long int64;               /**< signed 64 bit integer */
+
+
+/* char defines */
+#define WORDLEN 32
+typedef char word[ WORDLEN ];
+
+#define LINELEN 128
+typedef char line[ LINELEN ];
+
+#define PAGELEN 1024
+typedef char page[ PAGELEN ];
 
 
 /* NULL define */
