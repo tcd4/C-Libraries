@@ -20,6 +20,7 @@
 /**< data types enum */
 typedef enum CTypes
 {
+    NONE,
     VOID,
     INT,
     UINT,

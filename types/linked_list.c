@@ -1,97 +1,135 @@
 #include "linked_list.h"
 
 
-List* New_List( dataptr data, size_t size, void ( *Free )( void *data ) )
+void Alloc_List_Data( List *list, dataptr data, CTypes type )
+{
+    switch( type )
+    {
+    case NONE:
+	list->data = NULL;
+	break;
+    case VOID:
+	list->data = data;
+	break;
+    case INT:
+	list->data = malloc( sizeof( int32 ) );
+	memcpy( list->data, data, sizeof( int32 ) );
+	break;
+    case UINT:
+	list->data = malloc( sizeof( uint32 ) );
+	memcpy( list->data, data, sizeof( uint32 ) );
+	break;
+    case FLOAT:
+	list->data = malloc( sizeof( float ) );
+	memcpy( list->data, data, sizeof( float ) );
+	break;
+    case DOUBLE:
+	list->data = malloc( sizeof( double ) );
+	memcpy( list->data, data, sizeof( double ) );
+	break;
+    case LONG:
+	list->data = malloc( sizeof( long ) );
+	memcpy( list->data, data, sizeof( long ) );
+	break;
+    case CHAR:
+	list->data = malloc( sizeof( char ) );
+	memcpy( list->data, data, sizeof( char ) );
+	break;
+    case WORD:
+	list->data = malloc( sizeof( char ) * LINELEN );
+	memcpy( list->data, data, sizeof( char ) * WORDLEN );
+	break;
+    case LINE:
+	list->data = malloc( sizeof( char ) * LINELEN );
+	memcpy( list->data, data, sizeof( char ) * LINELEN );
+	break;
+    case PAGE:
+	list->data = malloc( sizeof( char ) * PAGELEN );
+	memcpy( list->data, data, sizeof( char ) * PAGELEN );
+	break;
+    case CUSTOM:
+	list->data = data;
+	break;
+    }
+}
+
+
+List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     List *new;
 
     new = C_New( List, 1 );
     Return_Val_If_Fail( new, NULL );
 
-    if( size ) 
-    {
-	new->data = malloc( size );
-	memcpy( new->data, data, size );
-    }
-    else
-    {
-	new->data = data;
-    }
-
-    if( Free ) 
-    {
-	new->Free = Free;
-    }
-
-    new->alloc = size;
-    new->next = NULL;
+    memset( new, 0, sizeof( List ) );
+    Alloc_List_Data( new, data, type );
+    new->type = type;
+    new->Free = Free;
 
     return new;
 }
 
 
-void Append_To_List( List *list, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     List *new, *end;
 
-    Return_If_Fail( list );
+    Return_Val_If_Fail( list, FALSE );
 
-    new = New_List( data, size, Free );
-    Return_If_Fail( new );
+    new = New_List( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     end = End_Of_List( list );
     end->next = new;
+
+    return TRUE;
 }
 
 
-void Prepend_To_List( List **list, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     List *new;
 
-    Return_If_Fail( list );
-    Return_If_Fail( *list );
+    Return_Val_If_Fail( list, FALSE );
+    Return_Val_If_Fail( *list, FALSE );
 
-    new = New_List( data, size, Free );
-    Return_If_Fail( new );
+    new = New_List( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     new->next = *list;
     *list = new;
+
+    return TRUE;
 }
 
 
-void Insert_Into_List( List **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     List *new, *temp;
     uint32 i;
 
-    Return_If_Fail( list );
-    Return_If_Fail( *list );
-    Return_If_Fail( index < 0 );
+    Return_Val_If_Fail( list, FALSE );
+    Return_Val_If_Fail( *list, FALSE );
+    Return_Val_If_Succ( index >= Length_Of_List( *list ), FALSE );
 
-    if( index == 0 )
-    {
-	Prepend_To_List( list, data, size, Free );
-	return;
-    }
+    if( index == 0 ) return Prepend_To_List( list, data, type, Free );
 
-    new = New_List( data, size, Free );
-    Return_If_Fail( new );
+    new = New_List( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     temp = *list;
-    i = 1;
+    i = 0;
 
-    while( temp )
+    while( i != index - 1 )
     {
-	if( i == index )
-	{
-	    new->next = temp->next;
-	    temp->next = new;
-	    break;
-	}
-
 	i++;
 	temp = temp->next;
     }
+
+    new->next = temp->next;
+    temp->next = new;
+
+    return TRUE;
 }
 
 
@@ -140,26 +178,19 @@ uint32 Length_Of_List( List *list )
 
 List* Duplicate_List( List *list )
 {
-    List *dup, *temp;
+    List *dup;
 
     Return_Val_If_Fail( list, NULL );
 
-    dup = New_List( list->data, list->alloc, list->Free );
+    dup = New_List( list->data, list->type, list->Free );
     Return_Val_If_Fail( dup, NULL );
 
-    temp = list;
     list = list->next;
 
     while( list )
     {
-	Append_To_List( dup, list->data, list->alloc, list->Free );
+	if( !Append_To_List( dup, list->data, list->type, list->Free ) ) return NULL;
 	list = list->next;
-    }
-
-    if( ( Length_Of_List( dup ) != Length_Of_List( temp ) ) )
-    {
-	Free_List( &dup );
-	return NULL;
     }
 
     return dup;

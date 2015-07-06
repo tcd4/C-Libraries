@@ -1,6 +1,7 @@
 #ifndef __LINKED_LIST__
 #define __LINKED_LIST__
 
+
 /**
  * @file linked_list.h
  *
@@ -13,6 +14,9 @@
  * Remove From Functions - Remove_List_Segment(), Remove_From_List()
  * Util Functions - Find_In_List(), End_Of_List(), Length_Of_List(), Duplicate_List()
  * Free Functions - Free_List_Segment(), Free_List()
+ *
+ * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ * WARNING: MAKE SURE YOU HAVE NO POINTERS TO LIST DATA WHEN FREEING A LIST
  */
 
 
@@ -26,14 +30,14 @@
 START_DECLS
 
 
-/*< the linked list struct */
+/**< the linked list struct */
 typedef struct list_s
 {
     dataptr         data;     /**< the data in the List segment */
-    size_t          alloc;    /**< the allocation size of the data */
+    CTypes          type;     /**< the data type of the data */
     struct list_s   *next;    /**< the next segment in the List */
 
-    void            ( *Free )( void *data ); /**< function pointer for custom free functions */
+    void            ( *Free )( dataptr data );    /**< function pointer for custom free functions */
 }List;
 
 
@@ -41,32 +45,45 @@ typedef struct list_s
  * @brief initializes a new List
  *
  * @param data the data to put in the List
- * @param size the allocation size of the data ( 0 if you don't want to allocate )
+ * @param type the data type of the data
  * @param Free a pointer to the data's custom free function
  *
  * @return a pointer to the newly created List
  */
-List* New_List( dataptr data, size_t size, void ( *Free )( void *data ) );
+List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) );
+
+/**
+ * @brief allocates the data for a list
+ *
+ * @param list the list to alloc the data for
+ * @param data the data to alloc for
+ * @param type the data type to allocate for
+ */
+void Alloc_List_Data( List *list, dataptr data, CTypes type );
 
 /**
  * @brief appends data to a List
  *
  * @param list the List to append to
  * @param data the data to put in the List
- * @param size the allocation size of the data ( 0 if you don't want to allocate )
+ * @param type the data type of the data 
  * @param Free a pointer to the data's custom free function
+ *
+ * @return TRUE if append was successful, FALSE if else
  */
-void Append_To_List( List *list, dataptr data, size_t size, void ( *Free )( void *data ) );
+Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void *data ) );
 
 /**
  * @brief prepends data to a List
  *
  * @param list the List to prepend to
  * @param data the data to put in the List
- * @param size the allocation size of the data ( 0 if you don't want to allocate )
+ * @param type the data type of the data
  * @param Free a pointer to the data's custom free function
+ *
+ * @return TRUE if prepend was successful, FALSE if else
  */
-void Prepend_To_List( List **list, dataptr data, size_t size, void ( *Free )( void *data ) );
+Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( void *data ) );
 
 /**
  * @brief inserts data into a List at an index
@@ -74,10 +91,12 @@ void Prepend_To_List( List **list, dataptr data, size_t size, void ( *Free )( vo
  * @param list the List to insert into
  * @param index the index to insert into
  * @param data the data to put in the List
- * @param size the allocation size of the data ( 0 if you don't want to allocate )
+ * @param type the data type of the data
  * @param Free a pointer to the data's custom free function
+ *
+ * @return TRUE if insert was successful, FALSE if else
  */
-void Insert_Into_List( List **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) );
+Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) );
 
 /**
  * @brief finds data in a List
