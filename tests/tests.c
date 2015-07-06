@@ -32,7 +32,7 @@ void Pick()
 
     input = C_New( char, 32 );
 
-    printf( "Pick a Test: all, bool, list, dlist, queue, stack\n" );
+    printf( "Pick a Test: all, bool, list, dlist, queue, stack ( quit )\n" );
     scanf( "%s", input );
 
     if( strcmp( input, "all" ) == 0 ) Test_All();
@@ -53,9 +53,10 @@ void Test_Specific( char *subject )
 {
     if( strcmp( subject, "bool" ) == 0 ) Bool_Test();
     else if( strcmp( subject, "list" ) == 0 ) List_Test();
-    else if( strcmp( subject, "dList" ) == 0 ) DList_Test();
+    else if( strcmp( subject, "dlist" ) == 0 ) DList_Test();
     else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
     else if( strcmp( subject, "stack" ) == 0 ) Stack_Test();
+    else if( strcmp( subject, "quit" ) == 0 ) return;
     else 
     {
 	printf( "You Suck\n" );
@@ -202,8 +203,8 @@ void Queue_Test()
 
 
 void DList_Test()
-{/*
-    DList *list, *dup, *temp;
+{
+    DList *list, *temp, *dup;
     int a;
     int *b;
 
@@ -211,10 +212,10 @@ void DList_Test()
     printf( "\n##### DList Test #####\n" );
 
 
-    printf( "New_DList Test\n" );
+    printf( "New_DList test\n" );
     a = 5;
-    list = New_DList( &a, sizeof( int ), NULL );
-    if( !list )
+    list = New_DList( &a, INT, NULL );
+    if( !list ) 
     {
 	printf( "failed to create DList\n" );
 	return;
@@ -229,7 +230,7 @@ void DList_Test()
     printf( "\nPrepend_To_DList Test\n" );
     for( a = 4; a >= 0; a-- )
     {
-	Prepend_To_DList( &list, &a, sizeof( int ), NULL );
+	Prepend_To_DList( &list, &a, INT, NULL );
 	printf( "prepended: %i\n", *( int* )( list->data ) );
     }
 
@@ -238,11 +239,11 @@ void DList_Test()
     temp = End_Of_DList( list );
     printf( "end data: %i\n", *( int* )( temp->data ) );
 
-
+   
     printf( "\nAppend_To_DList Test\n" );
     for( a = 6; a <= 9; a++ )
     {
-	Append_To_DList( list, &a, sizeof( int ), NULL );
+	Append_To_DList( list, &a, INT, NULL );
 	temp = End_Of_DList( list );
 	printf( "appended: %i\n", *( int* )( temp->data ) );
     }
@@ -250,32 +251,37 @@ void DList_Test()
 
     printf( "\nInsert_Into_DList Test\n" );
     a = 6;
-    Insert_Into_DList( &list, a, &a, sizeof( int ), NULL );
+    Insert_Into_DList( &list, a, &a, INT, NULL );
     a = 0;
-    Insert_Into_DList( &list, a, &a, sizeof( int ), NULL );
+    Insert_Into_DList( &list, a, &a, INT, NULL );
     a = 32;
-    Insert_Into_DList( &list, a, &a, sizeof( int ), NULL );
-
-
-    printf( "\nLength_Of_DList Test\n" );
-    printf( "length: %i\n", ( int )( Length_Of_DList( list ) ) );
+    Insert_Into_DList( &list, a, &a, INT, NULL );
 
 
     printf( "\nFind_In_DList Test\n" );
     b = &a;
-    Insert_Into_DList( &list, 5, b, 0, NULL );
+    Prepend_To_DList( &list, b, CUSTOM, NULL );
     if( Find_In_DList( list, b ) ) printf( "found it\n" );
-    else printf( "didn't find it\n" );
+    else printf( "didn't find it\n" ); 
 
 
-    printf( "\nRemove_DList_Segment and Free_DList_Segment tests\n" );
-    temp = list->next->next;
-    Remove_DList_Segment( &list, temp );
-    Remove_DList_Segment( &list, list );
+    printf( "\nDList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
 
 
     printf( "\nRemove_From_DList Test\n" );
     Remove_From_DList( &list, b, FALSE );
+
+
+    printf( "\nRemove_DList_Segment and Free_DList_Segment Tests\n" );
+    temp = list->next->next;
+    Remove_DList_Segment( &list, temp );
+    Remove_DList_Segment( &list, list );
 
 
     printf( "\nDList Check\n" );
@@ -295,15 +301,14 @@ void DList_Test()
 	printf( "dup: %i\n", *( int* )( temp->data ) );
 	temp = temp->next;
     }
-
+   
 
     printf( "\nFree_DList Test\n" );
-    b = NULL;
     Free_DList( &list );
     Free_DList( &dup );
 
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 
@@ -409,7 +414,6 @@ void List_Test()
     
 
     printf( "\nFree_List Test\n" );
-
     Free_List( &list );
     Free_List( &dup );
 

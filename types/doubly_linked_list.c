@@ -1,103 +1,137 @@
 #include "doubly_linked_list.h"
 
 
-DList* New_DList( dataptr data, size_t size, void ( *Free )( void *data ) )
+void Alloc_DList_Data( DList *list, dataptr data, CTypes type )
+{
+    switch( type )
+    {
+    case NONE:
+	list->data = NULL;
+	break;
+    case VOID:
+	list->data = data;
+	break;
+    case INT:
+	list->data = malloc( sizeof( int32 ) );
+	memcpy( list->data, data, sizeof( int32 ) );
+	break;
+    case UINT:
+	list->data = malloc( sizeof( uint32 ) );
+	memcpy( list->data, data, sizeof( uint32 ) );
+	break;
+    case FLOAT:
+	list->data = malloc( sizeof( float ) );
+	memcpy( list->data, data, sizeof( float ) );
+	break;
+    case DOUBLE:
+	list->data = malloc( sizeof( double ) );
+	memcpy( list->data, data, sizeof( double ) );
+	break;
+    case LONG:
+	list->data = malloc( sizeof( long ) );
+	memcpy( list->data, data, sizeof( long ) );
+	break;
+    case CHAR:
+	list->data = malloc( sizeof( char ) );
+	memcpy( list->data, data, sizeof( char ) );
+	break;
+    case WORD:
+	list->data = malloc( sizeof( char ) * LINELEN );
+	memcpy( list->data, data, sizeof( char ) * WORDLEN );
+	break;
+    case LINE:
+	list->data = malloc( sizeof( char ) * LINELEN );
+	memcpy( list->data, data, sizeof( char ) * LINELEN );
+	break;
+    case PAGE:
+	list->data = malloc( sizeof( char ) * PAGELEN );
+	memcpy( list->data, data, sizeof( char ) * PAGELEN );
+	break;
+    case CUSTOM:
+	list->data = data;
+	break;
+    }
+}
+
+
+DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     DList *new;
 
     new = C_New( DList, 1 );
     Return_Val_If_Fail( new, NULL );
 
-    if( size ) 
-    {
-	new->data = malloc( size );
-	memcpy( new->data, data, size );
-    }
-    else
-    {
-	new->data = data;
-    }
-
-    if( Free ) 
-    {
-	new->Free = Free;
-    }
-
-    new->alloc = size;
-    new->next = NULL;
-    new->prev = NULL;
+    memset( new, 0, sizeof( DList ) );
+    Alloc_DList_Data( new, data, type );
+    new->type = type;
+    new->Free = Free;
 
     return new;
 }
 
 
-void Prepend_To_DList( DList **list, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     DList *new;
 
-    Return_If_Fail( list );
-    Return_If_Fail( *list );
 
-    new = New_DList( data, size, Free );
-    Return_If_Fail( new );
+    Return_Val_If_Fail( list, FALSE );
+    Return_Val_If_Fail( *list, FALSE );
+
+    new = New_DList( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     new->next = *list;
     new->next->prev = new;
     *list = new;
+
+    return TRUE;
 }
 
 
-void Append_To_DList( DList *list, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Append_To_DList( DList *list, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     DList *new, *end;
 
-    Return_If_Fail( list );
+    Return_Val_If_Fail( list, FALSE );
 
-    new = New_DList( data, size, Free );
-    Return_If_Fail( new );
+    new = New_DList( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     end = End_Of_DList( list );
     end->next = new;
     new->prev = end;
+
+    return TRUE;
 }
 
 
-void Insert_Into_DList( DList **list, uint32 index, dataptr data, size_t size, void ( *Free )( void *data ) )
+Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) )
 {
     DList *new, *temp;
     uint32 i;
 
-    Return_If_Fail( list );
-    Return_If_Fail( *list );
-    Return_If_Fail( index < 0 );
+    Return_Val_If_Fail( list, FALSE );
+    Return_Val_If_Fail( *list, FALSE );
+    Return_Val_If_Succ( index >= Length_Of_DList( *list ), FALSE );
 
-    if( index == 0 )
-    {
-	Prepend_To_DList( list, data, size, Free );
-	return;
-    }
-
-    new = New_DList( data, size, Free );
-    Return_If_Fail( new );
+    if( index == 0 ) return Prepend_To_DList( list, data, type, Free );
+    new = New_DList( data, type, Free );
+    Return_Val_If_Fail( new, FALSE );
 
     temp = *list;
-    temp = temp->next;
-    i = 1;
-    
-    while( temp )
+
+    for( i = 0; i <= index - 1; i++ )
     {
-	if( i == index )
-	{
-	    new->next = temp;
-	    new->prev = temp->prev;
-	    temp->prev->next = new;
-
-	    break;
-	}
-
-	i++;
 	temp = temp->next;
     }
+
+    new->next = temp->next;
+    temp->next = new;
+    new->prev = temp;
+    new->next->prev = new;
+
+    return TRUE;
 }
 
 
@@ -146,26 +180,23 @@ DList* Find_In_DList( DList *list, dataptr data )
 
 DList* Duplicate_DList( DList *list )
 {
-    DList *dup, *temp;
+    DList *dup;
 
     Return_Val_If_Fail( list, NULL );
 
-    dup = New_DList( list->data, list->alloc, list->Free );
-    Return_Val_If_Fail( dup, NULL ); 
+    dup = New_DList( list->data, list->type, list->Free );
+    Return_Val_If_Fail( dup, NULL );
 
-    temp = list;
     list = list->next;
 
     while( list )
     {
-	Append_To_DList( dup, list->data, list->alloc, list->Free );
+	if( !Append_To_DList( dup, list->data, list->type, list->Free ) ) 
+	{
+	    Free_DList( &dup );
+	    return NULL;
+	}
 	list = list->next;
-    }
-
-    if( ( Length_Of_DList( dup ) != Length_Of_DList( temp ) ) )
-    {
-	Free_DList( &dup );
-	return NULL;
     }
 
     return dup;
