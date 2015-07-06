@@ -9,7 +9,7 @@
  *
  * Location Macros - HERE
  * 
- * Tracer Macros - TRACENUM( name, value ), TRACESTR( name, value )
+ * Tracer Macros - TRACENUM(), TRACEFLOAT(), TRACESTR()
  */
 
 
@@ -26,12 +26,20 @@
 
 /* tracer macros */
 /**
- * @brief traces the value of a number variable
+ * @brief traces the value of an int
  * 
  * @param name the name of the variable as a string
- * @param value the value of the variable
+ * @param value the int value
  */
-#define TRACENUM( name, value )   printf( "Tracing %s: %s\n", name, ( char * )( &value ) )
+#define TRACEINT( name, value )   printf( "Tracing %s: %i\n", name, value )
+
+/**
+ * @brief traces the value of a float
+ * 
+ * @param name the name of the variable as a string
+ * @param value the float value
+ */
+#define TRACEFLOAT( name, value )   printf( "Tracing %s: %f\n", name, value )
 
 /**
  * @brief traces the value of a string/char* variable
