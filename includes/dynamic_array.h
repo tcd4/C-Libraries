@@ -93,14 +93,15 @@ Bool Prepend_To_DArray( DArray *arr, dataptr data );
 Bool Append_To_DArray( DArray *arr, dataptr data );
 
 /**
- * @brief
+ * @brief insert data into a DArray at an index
  *
  * @param arr the DArray to insert into
  * @param data the data to insert
+ * @param index the index to insert into
  *
  * @return TRUE if the data was inserted, FALSE if else
  */
-Bool Insert_Into_DArray( DArray *arr, dataptr data );
+Bool Insert_Into_DArray( DArray *arr, dataptr data, uint32 index );
 
 /**
  * @brief finds data in a DArray at an index
