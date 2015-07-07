@@ -21,7 +21,7 @@
 
 
 #include <string.h>
-#include "stdmarocs.h"
+#include "stdmacros.h"
 #include "stdfuncs.h"
 #include "platforms.h"
 #include "boolean.h"
@@ -36,7 +36,7 @@ struct RealArray_s
     dataptr    data;                         /**< the data in the array */
     uint32     length;                       /**< the number of elements in the array */
     uint32     alloc;                        /**< the allocated memory of the array */
-    size_t     size;                         /**< the element size */
+    size_t     eltsize;                      /**< the element size */
     CTypes     type;                         /**< the data type of the array */
 
     void       ( *Free )( dataptr data );    /**< function pointer for the data's custom free function */
