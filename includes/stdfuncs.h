@@ -7,7 +7,7 @@
  *
  * @brief contains commonly used functions for CLibs
  *
- * Memory Allocation Function - Alloc_Type(), Alloc_And_Set()
+ * Memory Allocation Function - Alloc_Type(), Alloc_And_Set(), Type_To_Size()
  */
 
 
@@ -35,6 +35,15 @@ dataptr Alloc_Type( CTypes type );
  * @return a pointer to the allocated and set memory
  */ 
 dataptr Alloc_And_Set( dataptr data, CTypes type );
+
+/**
+ * @brief converts a CTypes to an allocation size
+ *
+ * @param type the CTypes to convert
+ *
+ * @return the allocation size of the CTypes
+ */
+size_t Type_To_Size( CTypes type );
 
 
 #endif
