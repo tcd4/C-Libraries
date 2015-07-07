@@ -5,6 +5,7 @@
 #include "doubly_linked_list.h"
 #include "queue.h"
 #include "stack.h"
+#include "dynamic_array.h"
 
 
 void Pick();
@@ -16,6 +17,7 @@ void List_Test();
 void DList_Test();
 void Queue_Test();
 void Stack_Test();
+void DArray_Test();
 
 
 int main( int argc, char *argv[] )
@@ -32,7 +34,7 @@ void Pick()
 
     input = C_New( char, 32 );
 
-    printf( "Pick a Test: all, bool, list, dlist, queue, stack ( quit )\n" );
+    printf( "Pick a Test: all, bool, list, dlist, queue, stack, darray ( quit )\n" );
     scanf( "%s", input );
 
     if( strcmp( input, "all" ) == 0 ) Test_All();
@@ -56,10 +58,32 @@ void Test_Specific( char *subject )
     else if( strcmp( subject, "dlist" ) == 0 ) DList_Test();
     else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
     else if( strcmp( subject, "stack" ) == 0 ) Stack_Test();
+    else if( strcmp( subject, "darray" ) == 0 ) DArray_Test();
     else if( strcmp( subject, "quit" ) == 0 ) return;
     else printf( "You Suck\n" );
 
     Pick();
+}
+
+
+void DArray_Test()
+{
+    DArray *arr;
+
+
+    printf( "\n##### DArray Test #####\n" );
+
+
+    printf( "\nNew_DArray Test\n" );
+    arr = New_DArray( INT, 5, NULL );
+    if( !arr )
+    {
+	printf( "failure\n" );
+	return;
+    }
+    
+
+    printf( "\nSuccess\n" );
 }
 
 
