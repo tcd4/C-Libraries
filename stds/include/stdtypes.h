@@ -14,6 +14,8 @@
  *
  * NULL define
  * TRUE and FALSE defines
+ *
+ * Function Pointers - FreeNotify
  */
 
 
@@ -87,8 +89,12 @@ typedef const void* constdataptr;        /**< constant void pointer data type */
 #endif
 
 #ifndef TRUE
-#define TRUE (!FALSE)                    /*< true define */
+#define TRUE (!FALSE)                    /**< true define */
 #endif
+
+
+/* function pointer defines */
+typedef void ( *FreeNotify )( dataptr data );     /**< free function pointer */
 
 
 #endif
