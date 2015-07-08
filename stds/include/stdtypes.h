@@ -31,6 +31,11 @@ typedef enum CTypes
     WORD,      /**< 32 bit char * */
     LINE,      /**< 128 bit char * */
     PAGE,      /**< 1024 bit char * */
+    BOOL,
+    LIST,
+    DLIST,
+    QUEUE,
+    STACK,
     CUSTOM     /**< user created data */
 }CTypes;
 
