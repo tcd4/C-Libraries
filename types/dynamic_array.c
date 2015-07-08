@@ -27,18 +27,26 @@ Bool Resize_DArray( DArray *arr, uint32 length )
     dataptr temp;
     
     Return_Val_If_Succ( length <= array->length, TRUE );
-    
-    temp = malloc(  array->eltsize * length );
-    Return_Val_If_Fail( temp, FALSE );
-    
-    if( array->data ) memcpy( temp, array->data, array->eltsize * length );
-    
-    array->data = temp;
-    array->length = length;
-    array->alloc = array->eltsize * length;
 
     return TRUE;
 }
+
+/*
+Bool Prepend_To_DArray( DArray *arr, dataptr data )
+{
+    RealArray *array = ( RealArray* ) arr;
+
+    Return_Val_If_Fail( arr, FALSE );
+    
+    if( array->numelt + 1 > array->length )
+	Return_Val_If_Fail( Resize_DArray( arr, arr->length + 1 ), FALSE );
+
+    memmove( array->data + array->eltsize, array->data, array->eltsize * ( array->length - 1 ) );
+    array->numelt++;
+
+    return TRUE;
+}
+*/
 
 
 /*eof*/

@@ -33,8 +33,9 @@ typedef struct RealArray_s    RealArray;     /**< the backend type for the dynam
 
 struct RealArray_s
 {
-    dataptr    data;                         /**< the data in the array */
-    uint32     length;                       /**< the number of elements in the array */
+    uint8      data;                         /**< the data in the array */
+    uint32     length;                       /**< the max number of elements in the array */
+    uint32     numelt;                       /**< the number of elements in the array */
     uint32     alloc;                        /**< the allocated memory of the array */
     size_t     eltsize;                      /**< the element size */
     CTypes     type;                         /**< the data type of the array */
@@ -45,7 +46,7 @@ struct RealArray_s
 
 struct DArray_s
 {
-    dataptr    data;     /**< the data in the DArray */
+    uint8      data;     /**< the data in the DArray */
     uint32     length;   /**< the number of elements in the DArray */
     CTypes     type;     /**< the data type of the DArray */
 };
