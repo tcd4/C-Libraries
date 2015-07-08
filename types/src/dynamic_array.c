@@ -1,6 +1,6 @@
 #include "dynamic_array.h"
 
-
+/*
 DArray* New_DArray( CTypes type, uint32 length, void ( *Free )( dataptr data ) )
 {
     RealArray *arr;
@@ -31,7 +31,7 @@ Bool Resize_DArray( DArray *arr, uint32 length )
     return TRUE;
 }
 
-/*
+
 Bool Prepend_To_DArray( DArray *arr, dataptr data )
 {
     RealArray *array = ( RealArray* ) arr;

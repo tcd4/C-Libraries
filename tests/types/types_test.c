@@ -68,19 +68,7 @@ void Test_Specific( char *subject )
 
 void DArray_Test()
 {
-    DArray *arr;
-
-
     printf( "\n##### DArray Test #####\n" );
-
-
-    printf( "\nNew_DArray Test\n" );
-    arr = New_DArray( INT, 5, NULL );
-    if( !arr )
-    {
-	printf( "failure\n" );
-	return;
-    }
     
 
     printf( "\nSuccess\n" );
