@@ -18,6 +18,7 @@ void DList_Test();
 void Queue_Test();
 void Stack_Test();
 void DArray_Test();
+void Dict_Test();
 
 
 int main( int argc, char *argv[] )
@@ -34,7 +35,7 @@ void Pick()
 
     input = C_New( char, 32 );
 
-    printf( "Pick a Test: all, bool, list, dlist, queue, stack, darray ( quit )\n" );
+    printf( "Pick a Test: all, bool, list, dlist, queue, stack, darray, dict ( quit )\n" );
     scanf( "%s", input );
 
     if( strcmp( input, "all" ) == 0 ) Test_All();
@@ -59,10 +60,20 @@ void Test_Specific( char *subject )
     else if( strcmp( subject, "queue" ) == 0 ) Queue_Test();
     else if( strcmp( subject, "stack" ) == 0 ) Stack_Test();
     else if( strcmp( subject, "darray" ) == 0 ) DArray_Test();
+    else if( strcmp( subject, "dict" ) == 0 ) Dict_Test();
     else if( strcmp( subject, "quit" ) == 0 ) return;
     else printf( "You Suck\n" );
 
     Pick();
+}
+
+
+void Dict_Test()
+{
+    printf( "\n##### Dict Test #####\n" );
+    
+
+    printf( "\nSuccess\n" );
 }
 
 
