@@ -145,7 +145,7 @@ void Stack_Test()
 
 
 void Queue_Test()
-{/*
+{
     Queue *queue, *dup;
     int a;
     dataptr p;
@@ -154,7 +154,7 @@ void Queue_Test()
 
 
     printf( "\nNew_Queue Test\n" );
-    queue = New_Queue( sizeof( int ), NULL );
+    queue = New_Queue( INT, NULL, NULL );
     if( !queue )
     {
 	printf( "failure\n" );
@@ -208,7 +208,7 @@ void Queue_Test()
     Free_Queue( &queue );
     if( queue ) printf( "Failure\n" );
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 

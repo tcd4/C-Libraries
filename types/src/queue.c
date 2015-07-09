@@ -1,7 +1,7 @@
 #include "queue.h"
 
 
-Queue* New_Queue( CTypes type, void ( *Free )( dataptr data ) )
+Queue* New_Queue( CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     Queue *new;
 
@@ -10,7 +10,7 @@ Queue* New_Queue( CTypes type, void ( *Free )( dataptr data ) )
 
     memset( new, 0, sizeof( Queue ) );
     new->type = type;
-    new->Free = Free;
+    new->destroy = destroy;
 
     return new;
 }
@@ -22,11 +22,11 @@ Bool Push_Queue( Queue *queue, dataptr data )
 
     if( queue->start )
     {
-	Return_Val_If_Fail( Append_To_List( queue->start, data, queue->type, queue->Free ), FALSE );
+	Return_Val_If_Fail( Append_To_List( queue->start, data, queue->type, queue->clone, queue->destroy ), FALSE );
     }
     else
     {
-	queue->start = New_List( data, queue->type, queue->Free );
+	queue->start = New_List( data, queue->type, queue->clone, queue->destroy );
 	Return_Val_If_Fail( queue->start, FALSE );
     }
 
@@ -75,7 +75,7 @@ Queue* Duplicate_Queue( Queue *queue )
     
     Return_Val_If_Fail( queue, NULL );
     
-    dup = New_Queue( queue->type, queue->Free );
+    dup = New_Queue( queue->type, queue->clone, queue->destroy );
     Return_Val_If_Fail( dup, NULL );
 
     dup->length = queue->length;

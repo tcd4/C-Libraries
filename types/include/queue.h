@@ -16,6 +16,7 @@
  *
  * WARNING: QUEUES SHOULD ONLY CONTAIN 1 DATA TYPE
  * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ *          IF A CLONE FUNCTION ISN'T PROVIDED
  * WARNING: MAKE SURE YOU HAVE NO POINTERS TO QUEUE DATA WHEN FREEING A QUEUE
  */
 
@@ -33,11 +34,12 @@ START_DECLS
 
 typedef struct
 {
-    List       *start;                       /**< the first element in the queue */
-    uint32     length;                       /**< the number of elements in the queue */
-    CTypes     type;                         /**< the data type of the data */
+    List            *start;   /**< the first element in the queue */
+    uint32          length;   /**< the number of elements in the queue */
+    CTypes          type;     /**< the data type of the data */
 
-    void       ( *Free )( dataptr data );    /**< function pointer for the data's custom free function */
+    CloneNotify     clone;    /**< function pointer for custom duplicate functions */
+    FreeNotify      destroy;  /**< function pointer for the data's custom free function */
 }Queue;
 
 
@@ -45,11 +47,12 @@ typedef struct
  * @brief creates a new Queue
  *
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return a pointer to the new Queue
  */
-Queue* New_Queue( CTypes type, void ( *Free )( dataptr data ) );
+Queue* New_Queue( CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief adds data onto the end of a Queue
