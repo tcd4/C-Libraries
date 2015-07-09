@@ -16,6 +16,7 @@
  * Free Functions - Free_List_Segment(), Free_List()
  *
  * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ *          IF A CLONE FUNCTION ISN'T PROVIDED
  * WARNING: MAKE SURE YOU HAVE NO POINTERS TO LIST DATA WHEN FREEING A LIST
  */
 
@@ -38,7 +39,8 @@ typedef struct list_s
     CTypes          type;     /**< the data type of the data */
     struct list_s   *next;    /**< the next segment in the List */
 
-    void            ( *Free )( dataptr data );    /**< function pointer for custom free functions */
+    CloneNotify     clone;    /**< function pointer for custom duplicate functions */
+    FreeNotify      destroy;  /**< function pointer for custom free functions */
 }List;
 
 
@@ -47,11 +49,12 @@ typedef struct list_s
  *
  * @param data the data to put in the List
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return a pointer to the newly created List
  */
-List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) );
+List* New_List( dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief appends data to a List
@@ -59,11 +62,12 @@ List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) );
  * @param list the List to append to
  * @param data the data to put in the List
  * @param type the data type of the data 
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if append was successful, FALSE if else
  */
-Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Append_To_List( List *list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief prepends data to a List
@@ -71,11 +75,12 @@ Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void
  * @param list the List to prepend to
  * @param data the data to put in the List
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if prepend was successful, FALSE if else
  */
-Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Prepend_To_List( List **list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief inserts data into a List at an index
@@ -84,11 +89,12 @@ Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( vo
  * @param index the index to insert into
  * @param data the data to put in the List
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if insert was successful, FALSE if else
  */
-Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief finds data in a List

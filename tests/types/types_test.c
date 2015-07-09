@@ -76,7 +76,7 @@ void DArray_Test()
 
 
 void Stack_Test()
-{
+{/*
     Stack *stack, *dup;
     int a;
     dataptr p;
@@ -140,12 +140,12 @@ void Stack_Test()
     if( stack ) printf( "Failure\n" );
 
 
-    printf( "\nSuccess\n" );
+    printf( "\nSuccess\n" );*/
 }
 
 
 void Queue_Test()
-{
+{/*
     Queue *queue, *dup;
     int a;
     dataptr p;
@@ -208,12 +208,12 @@ void Queue_Test()
     Free_Queue( &queue );
     if( queue ) printf( "Failure\n" );
 
-    printf( "\nSuccess\n" );
+    printf( "\nSuccess\n" );*/
 }
 
 
 void DList_Test()
-{
+{/*
     DList *list, *temp, *dup;
     int a;
     int *b;
@@ -318,7 +318,7 @@ void DList_Test()
     Free_DList( &dup );
 
 
-    printf( "\nSuccess\n" );
+    printf( "\nSuccess\n" );*/
 }
 
 
@@ -334,7 +334,7 @@ void List_Test()
 
     printf( "New_List test\n" );
     a = 5;
-    list = New_List( &a, INT, NULL );
+    list = New_List( &a, INT, NULL, NULL );
     if( !list ) 
     {
 	printf( "failed to create List\n" );
@@ -350,7 +350,7 @@ void List_Test()
     printf( "\nPrepend_To_List Test\n" );
     for( a = 4; a >= 0; a-- )
     {
-	Prepend_To_List( &list, &a, INT, NULL );
+	Prepend_To_List( &list, &a, INT, NULL, NULL );
 	printf( "prepended: %i\n", *( int* )( list->data ) );
     }
 
@@ -363,24 +363,32 @@ void List_Test()
     printf( "\nAppend_To_List Test\n" );
     for( a = 6; a <= 9; a++ )
     {
-	Append_To_List( list, &a, INT, NULL );
+	Append_To_List( list, &a, INT, NULL, NULL );
 	temp = End_Of_List( list );
 	printf( "appended: %i\n", *( int* )( temp->data ) );
+    }
+
+    printf( "\nList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
     }
 
 
     printf( "\nInsert_Into_List Test\n" );
     a = 6;
-    Insert_Into_List( &list, a, &a, INT, NULL );
+    Insert_Into_List( &list, a, &a, INT, NULL, NULL );
     a = 0;
-    Insert_Into_List( &list, a, &a, INT, NULL );
+    Insert_Into_List( &list, a, &a, INT, NULL, NULL );
     a = 32;
-    Insert_Into_List( &list, a, &a, INT, NULL );
+    Insert_Into_List( &list, a, &a, INT, NULL, NULL );
 
 
     printf( "\nFind_In_List Test\n" );
     b = &a;
-    Prepend_To_List( &list, b, CUSTOM, NULL );
+    Prepend_To_List( &list, b, CUSTOM, NULL, NULL );
     if( Find_In_List( list, b ) ) printf( "found it\n" );
     else printf( "didn't find it\n" ); 
 

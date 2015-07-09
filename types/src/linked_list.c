@@ -1,7 +1,7 @@
 #include "linked_list.h"
 
 
-List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) )
+List* New_List( dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     List *new;
 
@@ -9,21 +9,29 @@ List* New_List( dataptr data, CTypes type, void ( *Free )( void *data ) )
     Return_Val_If_Fail( new, NULL );
 
     memset( new, 0, sizeof( List ) );
-    new->data = Alloc_And_Set( data, type );
+
+    if( !( type == CUSTOM ) ) new->data = Alloc_And_Set( data, type );
+    else if( !clone ) new->data = data;
+    else
+    {
+	new->clone = clone;
+	new->data = clone( data );
+    }
+
     new->type = type;
-    new->Free = Free;
+    new->destroy = destroy;
 
     return new;
 }
 
 
-Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Append_To_List( List *list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     List *new, *end;
 
     Return_Val_If_Fail( list, FALSE );
 
-    new = New_List( data, type, Free );
+    new = New_List( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     end = End_Of_List( list );
@@ -33,14 +41,14 @@ Bool Append_To_List( List *list, dataptr data, CTypes type, void ( *Free )( void
 }
 
 
-Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Prepend_To_List( List **list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     List *new;
 
     Return_Val_If_Fail( list, FALSE );
     Return_Val_If_Fail( *list, FALSE );
 
-    new = New_List( data, type, Free );
+    new = New_List( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     new->next = *list;
@@ -50,7 +58,7 @@ Bool Prepend_To_List( List **list, dataptr data, CTypes type, void ( *Free )( vo
 }
 
 
-Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     List *new, *temp;
     uint32 i;
@@ -59,9 +67,9 @@ Bool Insert_Into_List( List **list, uint32 index, dataptr data, CTypes type, voi
     Return_Val_If_Fail( *list, FALSE );
     Return_Val_If_Succ( index >= Length_Of_List( *list ), FALSE );
 
-    if( index == 0 ) return Prepend_To_List( list, data, type, Free );
+    if( index == 0 ) return Prepend_To_List( list, data, type, clone, destroy );
 
-    new = New_List( data, type, Free );
+    new = New_List( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     temp = *list;
@@ -127,14 +135,14 @@ List* Duplicate_List( List *list )
 
     Return_Val_If_Fail( list, NULL );
 
-    dup = New_List( list->data, list->type, list->Free );
+    dup = New_List( list->data, list->type, list->clone, list->destroy );
     Return_Val_If_Fail( dup, NULL );
 
     list = list->next;
 
     while( list )
     {
-	if( !Append_To_List( dup, list->data, list->type, list->Free ) ) 
+	if( !Append_To_List( dup, list->data, list->type, list->clone, list->destroy ) ) 
 	{
 	    Free_List( &dup );
 	    return NULL;
@@ -214,7 +222,7 @@ void Free_List_Segment( List **seg )
 
     temp = *seg;
 
-    if( temp->Free ) temp->Free( temp->data );
+    if( temp->destroy ) temp->destroy( &temp->data );
     else free( temp->data );
 
     free( temp );
