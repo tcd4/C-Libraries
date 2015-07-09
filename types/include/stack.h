@@ -16,6 +16,7 @@
  *
  * WARNING - STACKS SHOULD ONLY CONTAIN 1 DATA TYPE
  * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ *          IF A CLONE FUNCTION ISN'T PROVIDED
  * WARNING: MAKE SURE YOU HAVE NO POINTERS TO STACK DATA WHEN FREEING A STACK
  */
 
@@ -35,12 +36,13 @@ START_DECLS
 /**< the stack struct */
 typedef struct
 {
-    List       *start;                       /**< the first element in the stack */
-    List       *end;                         /**< the last element in the stack */ 
-    uint32     length;                       /**< the number of elements in the stack */
-    CTypes     type;                         /**< the data type of the data */
+    List            *start;   /**< the first element in the stack */
+    List            *end;     /**< the last element in the stack */ 
+    uint32          length;   /**< the number of elements in the stack */
+    CTypes          type;     /**< the data type of the data */
 
-    void       ( *Free )( dataptr data );    /**< function pointer for the data's custom free function */
+    CloneNotify     clone;    /**< function pointer for custom duplicate functions */
+    FreeNotify      destroy;  /**< function pointer for custom free functions */
 }Stack;
 
 
@@ -48,11 +50,12 @@ typedef struct
  * @brief creates a new Stack
  *
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return a pointer to the new Stack
  */
-Stack* New_Stack( CTypes types, void ( *Free )( dataptr data ) );
+Stack* New_Stack( CTypes types, CloneNotify clone, FreeNotify destroy  );
 
 /**
  * @brief adds data onto the end of a Stack

@@ -1,7 +1,7 @@
 #include "stack.h"
 #include "debug.h"
 
-Stack* New_Stack( CTypes type, void ( *Free )( dataptr data ) )
+Stack* New_Stack( CTypes type, CloneNotify clone, FreeNotify destroy  )
 {
     Stack *new;
 
@@ -10,7 +10,7 @@ Stack* New_Stack( CTypes type, void ( *Free )( dataptr data ) )
 
     memset( new, 0, sizeof( Stack ) );
     new->type = type;
-    new->Free = Free;
+    new->destroy = destroy;
 
     return new;
 }
@@ -23,11 +23,12 @@ Bool Push_Stack( Stack *stack, dataptr data )
 
     if( stack->start )
     {
-	Return_Val_If_Fail( Append_To_List( stack->start, data, stack->type, stack->Free ), FALSE );
+	Return_Val_If_Fail( Append_To_List( stack->start, data, stack->type, stack->clone, stack->destroy ), 
+			    FALSE );
     }
     else
     {
-	stack->start = New_List( data, stack->type, stack->Free );
+	stack->start = New_List( data, stack->type, stack->clone, stack->destroy );
 	Return_Val_If_Fail( stack->start, FALSE );
     }
 
@@ -79,7 +80,7 @@ Stack* Duplicate_Stack( Stack *stack )
 
     Return_Val_If_Fail( stack, NULL );
 
-    dup = New_Stack( stack->type, stack->Free );
+    dup = New_Stack( stack->type, stack->clone, stack->destroy );
     Return_Val_If_Fail( dup, NULL );
 
     if( !stack->start ) dup->start = NULL;

@@ -76,7 +76,7 @@ void DArray_Test()
 
 
 void Stack_Test()
-{/*
+{
     Stack *stack, *dup;
     int a;
     dataptr p;
@@ -85,7 +85,7 @@ void Stack_Test()
 
 
     printf( "\nNew_Stack Test\n" );
-    stack = New_Stack( sizeof( int ), NULL );
+    stack = New_Stack( INT, NULL, NULL );
     if( !stack )
     {
 	printf( "failure\n" );
@@ -140,7 +140,7 @@ void Stack_Test()
     if( stack ) printf( "Failure\n" );
 
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 
