@@ -16,6 +16,7 @@
  * Free Functions - Free_DList_Segment(), Free_DList()
  *
  * WARNING: USERS WILL BE RESPONSIBLE FOR ALLOCATING MEMORY FOR NON-STANDARD C DATA TYPES
+ *          IF A CLONE FUNCTION ISN'T PROVIDED
  * WARNING: MAKE SURE YOU HAVE NO POINTERS TO LIST DATA WHEN FREEING A DLIST
  */
 
@@ -34,13 +35,13 @@ START_DECLS
 /**< the doubly linked list struct */
 typedef struct dlist_s
 {
-    dataptr         data;                    /**< the data in the DList segment */
-    size_t          type;                    /**< the data type of the data */
-    struct dlist_s  *next;                   /**< the next segment in the DList */
-    struct dlist_s  *prev;                   /**< the previous segment in the DList */
+    dataptr         data;          /**< the data in the DList segment */
+    size_t          type;          /**< the data type of the data */
+    struct dlist_s  *next;         /**< the next segment in the DList */
+    struct dlist_s  *prev;         /**< the previous segment in the DList */
 
-    void            ( *Free )( void *data ); /**< function pointer for the data's custom free function */
-
+    CloneNotify     clone;         /**< function pointer for the data's custom clone function */
+    FreeNotify      destroy;       /**< function pointer for the data's custom free function */
 }DList;
 
 
@@ -49,11 +50,12 @@ typedef struct dlist_s
  *
  * @param data the data to put in the DList
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return a pointer to the newly created DList
  */
-DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) );
+DList* New_DList( dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief appends data to a DList
@@ -61,11 +63,12 @@ DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) );
  * @param list the DList to append to
  * @param data the data to put in the DList
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if append was successful, FALSE if else
  */
-Bool Append_To_DList( DList *list, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Append_To_DList( DList *list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief prepends data to a DList
@@ -73,11 +76,12 @@ Bool Append_To_DList( DList *list, dataptr data, CTypes type, void ( *Free )( vo
  * @param list the DList to prepend to
  * @param data the data to put in the DList
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if prepend was successful, FALSE if else
  */
-Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief inserts data into a DList at an index
@@ -86,11 +90,12 @@ Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( 
  * @param index the index to insert into
  * @param data the data to put in the DList
  * @param type the data type of the data
- * @param Free a pointer to the data's custom free function
+ * @param clone a pointer to the data's custom duplicate function
+ * @param destroy a pointer to the data's custom free function
  *
  * @return TRUE if insert was successful, FALSE if else
  */
-Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) );
+Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy );
 
 /**
  * @brief finds data in a DList

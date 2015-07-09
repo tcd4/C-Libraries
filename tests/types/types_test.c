@@ -213,7 +213,7 @@ void Queue_Test()
 
 
 void DList_Test()
-{/*
+{
     DList *list, *temp, *dup;
     int a;
     int *b;
@@ -224,7 +224,7 @@ void DList_Test()
 
     printf( "New_DList test\n" );
     a = 5;
-    list = New_DList( &a, INT, NULL );
+    list = New_DList( &a, INT, NULL, NULL );
     if( !list ) 
     {
 	printf( "failed to create DList\n" );
@@ -240,7 +240,7 @@ void DList_Test()
     printf( "\nPrepend_To_DList Test\n" );
     for( a = 4; a >= 0; a-- )
     {
-	Prepend_To_DList( &list, &a, INT, NULL );
+	Prepend_To_DList( &list, &a, INT, NULL, NULL );
 	printf( "prepended: %i\n", *( int* )( list->data ) );
     }
 
@@ -253,24 +253,42 @@ void DList_Test()
     printf( "\nAppend_To_DList Test\n" );
     for( a = 6; a <= 9; a++ )
     {
-	Append_To_DList( list, &a, INT, NULL );
+	Append_To_DList( list, &a, INT, NULL, NULL );
 	temp = End_Of_DList( list );
 	printf( "appended: %i\n", *( int* )( temp->data ) );
     }
 
 
+    printf( "\nDList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
+
+
     printf( "\nInsert_Into_DList Test\n" );
     a = 6;
-    Insert_Into_DList( &list, a, &a, INT, NULL );
+    Insert_Into_DList( &list, a, &a, INT, NULL, NULL );
     a = 0;
-    Insert_Into_DList( &list, a, &a, INT, NULL );
+    Insert_Into_DList( &list, a, &a, INT, NULL, NULL );
     a = 32;
-    Insert_Into_DList( &list, a, &a, INT, NULL );
+    Insert_Into_DList( &list, a, &a, INT, NULL, NULL );
+
+
+    printf( "\nDList Check\n" );
+    temp = list;
+    while( temp )
+    {
+	printf( "check: %i\n", *( int* )( temp->data ) );
+	temp = temp->next;
+    }
 
 
     printf( "\nFind_In_DList Test\n" );
     b = &a;
-    Prepend_To_DList( &list, b, CUSTOM, NULL );
+    Prepend_To_DList( &list, b, CUSTOM, NULL, NULL );
     if( Find_In_DList( list, b ) ) printf( "found it\n" );
     else printf( "didn't find it\n" ); 
 
@@ -318,7 +336,7 @@ void DList_Test()
     Free_DList( &dup );
 
 
-    printf( "\nSuccess\n" );*/
+    printf( "\nSuccess\n" );
 }
 
 

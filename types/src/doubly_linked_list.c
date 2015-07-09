@@ -1,7 +1,7 @@
 #include "doubly_linked_list.h"
 
 
-DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) )
+DList* New_DList( dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     DList *new;
 
@@ -9,15 +9,23 @@ DList* New_DList( dataptr data, CTypes type, void ( *Free )( void *data ) )
     Return_Val_If_Fail( new, NULL );
 
     memset( new, 0, sizeof( DList ) );
-    new->data = Alloc_And_Set( data, type );
+
+    if( !( type == CUSTOM ) ) new->data = Alloc_And_Set( data, type );
+    else if( !clone ) new->data = data;
+    else
+    {
+	new->clone = clone;
+	new->data = clone( data );
+    }
+
     new->type = type;
-    new->Free = Free;
+    new->destroy = destroy;
 
     return new;
 }
 
 
-Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     DList *new;
 
@@ -25,7 +33,7 @@ Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( 
     Return_Val_If_Fail( list, FALSE );
     Return_Val_If_Fail( *list, FALSE );
 
-    new = New_DList( data, type, Free );
+    new = New_DList( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     new->next = *list;
@@ -36,13 +44,13 @@ Bool Prepend_To_DList( DList **list, dataptr data, CTypes type, void ( *Free )( 
 }
 
 
-Bool Append_To_DList( DList *list, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Append_To_DList( DList *list, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     DList *new, *end;
 
     Return_Val_If_Fail( list, FALSE );
 
-    new = New_DList( data, type, Free );
+    new = New_DList( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     end = End_Of_DList( list );
@@ -53,7 +61,7 @@ Bool Append_To_DList( DList *list, dataptr data, CTypes type, void ( *Free )( vo
 }
 
 
-Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, void ( *Free )( void *data ) )
+Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, CloneNotify clone, FreeNotify destroy )
 {
     DList *new, *temp;
     uint32 i;
@@ -62,8 +70,9 @@ Bool Insert_Into_DList( DList **list, uint32 index, dataptr data, CTypes type, v
     Return_Val_If_Fail( *list, FALSE );
     Return_Val_If_Succ( index >= Length_Of_DList( *list ), FALSE );
 
-    if( index == 0 ) return Prepend_To_DList( list, data, type, Free );
-    new = New_DList( data, type, Free );
+    if( index == 0 ) return Prepend_To_DList( list, data, type, clone, destroy );
+
+    new = New_DList( data, type, clone, destroy );
     Return_Val_If_Fail( new, FALSE );
 
     temp = *list;
@@ -131,18 +140,19 @@ DList* Duplicate_DList( DList *list )
 
     Return_Val_If_Fail( list, NULL );
 
-    dup = New_DList( list->data, list->type, list->Free );
+    dup = New_DList( list->data, list->type, list->clone, list->destroy );
     Return_Val_If_Fail( dup, NULL );
 
     list = list->next;
 
     while( list )
     {
-	if( !Append_To_DList( dup, list->data, list->type, list->Free ) ) 
+	if( !Append_To_DList( dup, list->data, list->type, list->clone, list->destroy ) ) 
 	{
 	    Free_DList( &dup );
 	    return NULL;
 	}
+
 	list = list->next;
     }
 
@@ -225,7 +235,7 @@ void Free_DList_Segment( DList **seg )
 
     temp = *seg;
 
-    if( temp->Free ) temp->Free( temp->data );
+    if( temp->destroy ) temp->destroy( &temp->data );
     else free( temp->data );
 
     free( temp );
