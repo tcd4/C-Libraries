@@ -28,12 +28,7 @@ START_DECLS
 /**< the key/value type */
 typedef struct Charm_s
 {
-    dataptr         key;           /**< the key */
-    CTypes          keyType;       /**< the key type */
-
-    CompareNotify   keyCompare;    /**< the compare function for the key */
-    CloneNotify     keyClone;      /**< the duplicate function for the key */
-    FreeNotify      keyDestroy;    /**< the free function for the key */
+    word            key;           /**< the key */
 
     dataptr         val;           /**< the value */
     CTypes          valType;       /**< the value type */
@@ -51,21 +46,91 @@ typedef struct Bracelet_s
 }Bracelet;
 
 
+/**
+ * @brief creates a new Bracelet
+ *
+ * @return a pointer to the new Bracelet
+ */
 Bracelet* New_Bracelet();
-Charm* New_Charm( dataptr key, CTypes keyType, dataptr val, CTypes valType );
 
-void Set_Charm_Key_Funcs( Charm *charm, CompareNotify compare, CloneNotify clone, FreeNotify destroy );
-void Set_Charm_Val_Funcs( Charm *charm, CloneNotify clone, FreeNotify destroy );
+/**
+ * @brief creates a new Charm
+ *
+ * @param key the key for the Charm
+ * @param val the value for the Charm
+ * @param valType the data type of the val
+ * @param clone the duplicate function for the value
+ * @param destroy the free function for the value
+ *
+ * @return a pointer to the new Charm
+ */
+Charm* New_Charm( word key, dataptr val, CTypes valType, CloneNotify clone, FreeNotify destroy );
 
+/**
+ * @brief adds a Charm to a Bracelet
+ *
+ * @param bracelet the Bracelet to add to
+ * @param charm the Charm to add on
+ *
+ * @return TRUE if the charm was added, FALSE if else
+ */
 Bool Add_Charm( Bracelet *bracelet, Charm *charm );
-void Remove_Charm( Bracelet *bracelet, Charm *charm );
-Charm* Find_Charm( Bracelet *bracelet, dataptr data );
 
+/**
+ * @brief removes a Charm from a Bracelet
+ *
+ * @param bracelet the Bracelet to remove from
+ * @param charm the Charm to remove
+ */
+void Remove_Charm( Bracelet *bracelet, Charm *charm );
+
+/**
+ * @brief finds a Charm in a Bracelet
+ *
+ * @param bracelet the Bracelet to search in
+ * @param key the key to search for
+ *
+ * @return a pointer to the found Charm or NULL if it's not found
+ */
+Charm* Find_Charm( Bracelet *bracelet, word key );
+
+/**
+ * @brief frees all the Charms from a Bracelet
+ *
+ * @param bracelet the Bracelet to clear
+ */
 void Clear_Bracelet( Bracelet *bracelet );
+
+/**
+ * @brief duplicates a Bracelet
+ *
+ * @param bracelet the Bracelet to duplicate
+ *
+ * @return a pointer to the duplicate Bracelet
+ */
 Bracelet* Duplicate_Bracelet( Bracelet *bracelet );
+
+/**
+ * @brief duplicates a Charm
+ *
+ * @param charm the Charm to duplicate
+ *
+ * @return a pointer to the duplicate Charm
+ */
 Charm* Duplicate_Charm( Charm *charm );
 
+/**
+ * @brief frees the allocated memory from a Charm
+ *
+ * @param charm the Charm to free
+ */
 void Free_Charm( Charm **charm );
+
+/**
+ * @brief frees the allocated memory from a Bracelet 
+ *
+ * @param bracelet the Bracelet to free
+ */
 void Free_Bracelet( Bracelet **bracelet );
 
 
