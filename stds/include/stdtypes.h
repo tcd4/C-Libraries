@@ -96,7 +96,7 @@ typedef const void* constdataptr;        /**< constant void pointer data type */
 /* function pointer defines */
 typedef void ( *FreeNotify )( dataptr *data );                   /**< free function pointer */
 typedef dataptr ( *CloneNotify )( dataptr data );                /**< duplicate function pointer */
-typedef Bool ( *CompareNotify )( dataptr d1, dataptr d2 );       /**< compare function pointer */
+typedef uint8 ( *CompareNotify )( dataptr d1, dataptr d2 );       /**< compare function pointer */
 
 
 #endif
